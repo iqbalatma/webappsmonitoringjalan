@@ -27,6 +27,11 @@ class UsersModel extends CI_Model
         return $this->db->get_where($this->table, ["username" => $username])->row();
     }
 
+    public function cekToken($token)
+    {
+        return $this->db->get_where($this->table, ["token" => "$token"])->row();
+    }
+
 
 
 

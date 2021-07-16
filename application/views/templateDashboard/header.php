@@ -14,7 +14,7 @@
     <title><?= $title; ?></title>
 
     <!-- untuk favicon -->
-    <!-- <link rel="icon" href="<?= base_url() ?>/favicon.gif" type="image/gif"> -->
+    <link rel="icon" href="<?= base_url() ?>/assets/img/sambas.png" type="image/gif">
 
 
     <!-- Custom fonts for this template-->
@@ -29,7 +29,25 @@
 
 
 
+    <!-- LOAD LEAFLET -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
+
+    <!-- MARKER CLUSTER Load-->
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css" />
+
+
+    <!-- elevation -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/elevation/elevation.css" />
+
+    <!-- Heightograph Load -->
+    <link rel="stylesheet" href="<?= base_url(); ?>/assets/heightgraph/dist/L.Control.Heightgraph.min.css">
+    </script>
+    <script type="text/javascript" src="<?= base_url(); ?>/assets/js/mapping.js"></script>
+    <script type="text/javascript" src="<?= base_url(); ?>/assets/heightgraph/dist/L.Control.Heightgraph.min.js"></script>
 
 </head>
 

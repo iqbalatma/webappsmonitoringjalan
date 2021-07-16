@@ -42,6 +42,11 @@
     </div>
 </div>
 
+<!-- INISIASI DATA -->
+
+<script>
+    const main_url = "<?= base_url(); ?>";
+</script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="<?= base_url(); ?>/assets/vendor/jquery/jquery.min.js"></script>
@@ -64,7 +69,77 @@
 <script src="<?= base_url(); ?>/assets/vendor/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url(); ?>/assets/vendor/datatables/dataTables.bootstrap4.js"></script>
 
+<!-- MarkerCluster -->
+
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<!-- LOADER -->
+<script type="module" src="<?= base_url(); ?>/assets/heightgraph/src/L.Control.Heightgraph.js"></script>
+<script src="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js"></script>
+
+
 </body>
+
+
+
+
+
+<!-- CATATAN SEKARANG
+    Inisiasi map sudah dipisahkan, marker cluster juga sudah dipisahkan, heightgraph juga terpisah. tinggal menggabungkan ketiganya menjadi gabungan yang terintegrasi
+    Jangan lupa revisi class diagram dan sequence diagram, jangan ngurusin coding mulu -->
+
+<!-- INISIASI CODE UNTUK MEMANGGIL MAP -->
+<script type="text/javascript" src="<?= base_url(); ?>/assets/js/inisiasimap.js"></script>
+
+
+
+
+
+
+<!-- DATA MARKER CLUSTER -->
+<script type="text/javascript">
+    var data_jalan_rusak = <?php echo json_encode($data_jalan_rusak); ?>;
+    var addressPoints = data_jalan_rusak
+    console.log("haha")
+    console.log(data_jalan_rusak)
+</script>
+<script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script>
+
+
+
+
+<!-- HEIGHTGRAPH CODE-->
+<script type="text/javascript">
+    var data_altitude = <?php echo json_encode($data_altitude); ?>;
+    var final_altitude = [];
+    for (let i = 0; i < data_altitude.length; i++) {
+        final_altitude.push([data_altitude[i][1], data_altitude[i][0], data_altitude[i][2]]);
+    }
+    console.log(final_altitude);
+</script>
+
+<script type="text/javascript">
+    const geojson1 = [{
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": final_altitude
+            },
+            "properties": {
+                "attributeType": 0
+            }
+        }, ],
+        "properties": {
+            "Creator": "OpenRouteService.org",
+            "records": 10,
+            "summary": "surface",
+            "label": "Surface"
+        }
+    }];
+</script>
+
+<script type="text/javascript" src="<?= base_url(); ?>/assets/js/heightgraph.js"></script>
 <script>
     $(document).ready(function() {
         $('#tabel-data').DataTable();

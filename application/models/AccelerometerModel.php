@@ -10,42 +10,78 @@ class AccelerometerModel extends CI_Model
         parent::__construct();
     }
     protected $table      = 'accelerometer';
+    protected $table_location = 'location';
     protected $primaryKey = 'id';
     protected $returnType     = 'array';
 
 
     public function getAll()
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->query("SELECT * FROM accelerometer INNER JOIN location ON accelerometer.location_id = location.id")->result();
     }
 
     public function getById($id)
     {
-        return $this->db->get_where($this->table, ["id" => $id])->row();
+        return $this->db->query("SELECT * FROM accelerometer INNER JOIN location ON accelerometer.location_id = location.id WHERE accelerometer.id = $id")->result();
     }
 
 
 
 
+
+
+
+    public function save($data)
+    {
+        $latitude = doubleval($data["latitude"]);
+        $longitude = doubleval($data["longitude"]);
+        $cek_lokasi = $this->db->query("SELECT * FROM location where latitude = $latitude AND longitude = $longitude")->result_array();
+
+
+        if ($cek_lokasi) {
+            $id_location = $cek_lokasi[0]["id"];
+            $data_accelerometer = [
+                "id" => "",
+                "x_axis" => doubleval($data['x_axis']),
+                "y_axis" => doubleval($data['y_axis']),
+                "z_axis" => doubleval($data['z_axis']),
+                "status" => $data['status'],
+                "location_id" => $id_location,
+
+            ];
+            $this->db->insert($this->table, $data_accelerometer);
+        } else {
+            $data_location = [
+                "id" => "",
+                "latitude" => doubleval($data["latitude"]),
+                "longitude" => doubleval($data["longitude"]),
+                "kecamatan" => $data["kecamatan"]
+            ];
+            $this->db->insert($this->table_location, $data_location);
+            $id_location = 25;
+            $data_location  = $this->getLastLocaton();
+            $id_location = $data_location[0]['id'];
+            $data_accelerometer = [
+                "id" => "",
+                "x_axis" => doubleval($data['x_axis']),
+                "y_axis" => doubleval($data['y_axis']),
+                "z_axis" => doubleval($data['z_axis']),
+                "status" => $data['status'],
+                "location_id" => $id_location,
+
+            ];
+
+            $this->db->insert($this->table, $data_accelerometer);
+        }
+    }
+
+    public function getLastLocaton()
+    {
+        return $this->db->query("SELECT * FROM location ORDER BY id DESC LIMIT 1")->result_array();
+    }
 
 
     // BELUM DIGUNAKAN
-    public function save($data)
-    {
-        // $post = $this->input->post();
-        // $this->product_id = uniqid();
-        // $this->name = $post["name"];
-        // $this->price = $post["price"];
-        // $this->description = $post["description"];
-
-        // $this->db->insert('entries', $this);
-
-        // $this->username = $data['username'];
-        // $this->password = $data['password'];
-        // $this->email = $data['email'];
-
-        return $this->db->insert($this->table, $data);
-    }
 
     public function update()
     {

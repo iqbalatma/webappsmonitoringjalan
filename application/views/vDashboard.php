@@ -3,28 +3,35 @@
 
 	<!-- Page Heading -->
 	<div class="d-sm-flex align-items-center justify-content-between mb-4">
-		<h1 class="h3 mb-0 text-gray-800">Data Jalan</h1>
-		<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+		<h1 class="h3 mb-0 text-gray-800">Data Jalan Rusak</h1>
 	</div>
 
 	<!-- Content Row -->
 	<div class="row">
 
+
 		<!-- Earnings (Monthly) Card Example -->
 		<div class="col-xl-12 col-md-6 mb-4">
 			<div class="card border-left-primary shadow h-100 py-2">
+
 				<div class="card-body">
+					<a href="<?= base_url(); ?>Dashboard/"><button type="button" class="mb-3 btn btn-primary">Data Jalan</button></a>
+					<a href="<?= base_url(); ?>Dashboard/jalanRusak"><button type="button" class="mb-3 btn btn-primary">Data Jalan Rusak</button></a>
+					<a href="<?= base_url(); ?>Dashboard/jalanRusakTerverifikasi"><button type="button" class="mb-3 btn btn-primary">Data Jalan Rusak Terverifikasi</button></a>
+					<a href="<?= base_url(); ?>Dashboard/altitude"><button type="button" class="mb-3 btn btn-primary">Data Altitude</button></a>
+
 					<table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
 								<th>No</th>
 								<th>Latitude</th>
 								<th>Longitude</th>
-								<th>Sumbu X</th>
-								<th>Sumbu Y</th>
-								<th>Surveyor</th>
+								<th>Nama Kecamatan</th>
 								<th>Status</th>
+								<th>Verifikasi</th>
+								<th>Update Oleh</th>
 								<th>Tanggal</th>
+								<th>Gambar</th>
 							</tr>
 						</thead>
 						<tfoot>
@@ -32,28 +39,49 @@
 								<th>No</th>
 								<th>Latitude</th>
 								<th>Longitude</th>
-								<th>Sumbu X</th>
-								<th>Sumbu Y</th>
-								<th>Surveyor</th>
+								<th>Nama Kecamatan</th>
 								<th>Status</th>
+								<th>Verifikasi</th>
+								<th>Update Oleh</th>
 								<th>Tanggal</th>
+								<th>Gambar</th>
 							</tr>
 						</tfoot>
 						<tbody>
 
 							<?php
+
 							$i = 1;
 							foreach ($dataAccelerometer as $row) :
 							?>
 								<tr>
 									<td><?= $i; ?></td>
-									<td><?= $row->lat; ?></td>
-									<td><?= $row->lon; ?></td>
-									<td><?= $row->x_axis; ?></td>
-									<td><?= $row->z_axis; ?></td>
-									<td><?= $row->user_id; ?></td>
+									<td><?= $row->latitude; ?></td>
+									<td><?= $row->longitude; ?></td>
+									<td><?= $row->kecamatan; ?></td>
 									<td><?= $row->status; ?></td>
+
+									<td><?php
+										if ($row->verifikasi == 0) {
+											$verifikasi = "Belum Terverifikasi";
+										} else {
+											$verifikasi = "Terverifikasi";
+										};
+										echo $verifikasi;
+										?></td>
+									<td>
+										<?php
+										if (isset($row->update_by)) {
+											$update_by = $row->update_by;
+											$query = $this->db->query("SELECT * FROM users WHERE id = $update_by")->result_array();
+											$update_by = ucwords($query[0]["fullname"]);
+										} else {
+											$update_by = "-";
+										};
+										echo $update_by;
+										?></td>
 									<td><?= $row->date; ?></td>
+									<td><img src="<?= base_url() . $row->img_path ?>" width="200" alt=""></td>
 								</tr>
 							<?php
 								$i++;
