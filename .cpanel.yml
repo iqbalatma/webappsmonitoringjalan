@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/monq1134/public_html/
-    - /bin/cp -R application $DEPLOYPATH
+    - /bin/cp -R webappsmonitoringjalan $DEPLOYPATH
