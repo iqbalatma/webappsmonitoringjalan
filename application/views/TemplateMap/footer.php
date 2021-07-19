@@ -7,10 +7,6 @@
 
 
 <!-- LOADER LEAFLET PLUGIN -->
-<!-- HEIGHTGRAPH -->
-<!-- <script type="text/javascript" src="<?= base_url(); ?>/assets/heightgraph/src/L.Control.Heightgraph.js"></script> -->
-<script type="text/javascript" src="<?= base_url(); ?>/assets/heightgraph/dist/L.Control.Heightgraph.min.js"></script>
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/mapping.js"></script>
 <!-- MARKERCLUSTER -->
 <script src="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js"></script>
 <!-- ROUTING MACHINE -->

@@ -68,9 +68,6 @@
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css" />
 
-    <!-- HEIGHTGRAPH CSS Load -->
-    <link rel="stylesheet" href="<?= base_url(); ?>/assets/heightgraph/dist/L.Control.Heightgraph.min.css">
-
     <!-- ROUTING MACHINE CSS Load-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 

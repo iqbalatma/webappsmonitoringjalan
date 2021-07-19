@@ -166,12 +166,6 @@
         };
 
 
-
-
-
-
-
-        // https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=108.97321338%2C1.06320954
     }).addTo(map);
 </script>
 

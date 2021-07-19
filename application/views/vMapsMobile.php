@@ -140,36 +140,7 @@
 </script>
 
 
-<!-- HEIGHTGRAPH CODE -->
-<script type="text/javascript">
-    var data_altitude = <?php echo json_encode($data_altitude); ?>;
-    var final_altitude = [];
-    for (let i = 0; i < data_altitude.length; i++) {
-        final_altitude.push([data_altitude[i][1], data_altitude[i][0], data_altitude[i][2]]);
-    }
 
-    const geojson1 = [{
-        "type": "FeatureCollection",
-        "features": [{
-            "type": "Feature",
-            "geometry": {
-                "type": "LineString",
-                "coordinates": final_altitude
-            },
-            "properties": {
-                "attributeType": 0
-            }
-        }, ],
-        "properties": {
-            "Creator": "OpenRouteService.org",
-            "records": 1,
-            "summary": "surface",
-            "label": "Surface"
-        }
-    }];
-</script>
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/heightgraph.js">
-</script>
 
 
 
@@ -186,16 +157,30 @@
 
         var iqbal = L.Routing.control({
             waypoints: polylinePoints,
+            routeWhileDragging: true,
             lineOptions: {
                 styles: [{
                     color: 'orange',
                     opacity: 10,
                     weight: 5
                 }]
+            },
+            createMarker: function(i, wp, nWps) {
+                if (i === 0 || i === nWps - 1) {
+                    return L.marker(wp.latLng, {
+                        icon: userDeviceLocationIcon
+                    });
+                } else {
+                    return L.marker(wp.latLng, {
+                        icon: userDeviceLocationIcon
+                    });
+                }
             }
         });
         iqbal.addTo(map);
         iqbal.hide();
+
+
     }
 </script>
 
