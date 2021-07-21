@@ -18,4 +18,16 @@ class UphillroadModel extends CI_Model
     {
         return $this->db->query("SELECT * FROM uphill_road")->result();
     }
+
+    public function uphill_road($data)
+    {
+        $data_uphill_road = [
+            "highest_lat" => $data['highestlat'],
+            "highest_long" => $data['highestlng'],
+            "lowest_lat" => $data['lowestlat'],
+            "lowest_long" => $data['lowestlng'],
+            "update_by" => $data['id']
+        ];
+        $this->db->insert("uphill_road", $data_uphill_road);
+    }
 }

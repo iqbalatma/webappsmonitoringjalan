@@ -192,8 +192,14 @@
             }
             $('#myModal').modal('show');
             document.getElementById('idlocation').value = locationIdMarkers;
+            console.log(a)
         }
     });
+
+    markers.on('click', function(a) {
+        $('#myModal').modal('show');
+        document.getElementById('idlocation').value = a.layer.options.locationid;
+    })
 
     // ini adalah marker cluster, datanya dari addres point
     for (var i = 0; i < addressPoints.length; i++) {
@@ -203,10 +209,6 @@
             locationid: locationid
         });
 
-        marker.on("click", function(a) {
-            $('#myModal').modal('show');
-            document.getElementById('idlocation').value = locationid;
-        })
 
         markers.addLayer(marker);
     }

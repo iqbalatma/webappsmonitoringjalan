@@ -155,7 +155,7 @@
         ];
 
 
-        var iqbal = L.Routing.control({
+        var uphillRoadControl = L.Routing.control({
             waypoints: polylinePoints,
             routeWhileDragging: true,
             lineOptions: {
@@ -166,22 +166,24 @@
                 }]
             },
             createMarker: function(i, wp, nWps) {
-                if (i === 0 || i === nWps - 1) {
+                if (i === 0) {
                     return L.marker(wp.latLng, {
-                        icon: userDeviceLocationIcon
+                        icon: jalanTertinggi
                     });
                 } else {
                     return L.marker(wp.latLng, {
-                        icon: userDeviceLocationIcon
+                        icon: jalanTerendah
                     });
                 }
             }
         });
-        iqbal.addTo(map);
-        iqbal.hide();
-
-
+        uphillRoadControl.addTo(map);
+        uphillRoadControl.hide();
     }
+    uphillRoadControl.on('routesfound', function(e) {
+        // map.fitBounds(featureGroup.getBounds());
+
+    })
 </script>
 
 

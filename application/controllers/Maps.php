@@ -23,8 +23,6 @@ class Maps extends CI_Controller
     {
         parent::__construct();
         $this->load->model("UsersModel");
-        $this->load->model("AccelerometerModel");
-        $this->load->model("AltitudeModel");
         $this->load->model("LocationModel");
         $this->load->model("UphillroadModel");
     }
@@ -33,12 +31,6 @@ class Maps extends CI_Controller
 
     public function index()
     {
-
-        $data_coordinat = array();
-        $data_altitude = $this->AltitudeModel->getAll();
-        foreach ($data_altitude as $row) :
-            array_push($data_coordinat, [$row->latitude, $row->longitude, $row->altitude]);
-        endforeach;
 
         $dataJalanRusak = array();
         $dataJalanRusakDariDB = $this->LocationModel->getDataRusak();
@@ -49,7 +41,6 @@ class Maps extends CI_Controller
         $data = [
             'title' => 'Maps',
             'content' => 'vMaps',
-            'data_altitude' => $data_coordinat,
             'data_jalan_rusak' => $dataJalanRusak,
         ];
         $this->load->view('templateDashboard/wrapper', $data);
@@ -58,13 +49,6 @@ class Maps extends CI_Controller
 
     public function deteksijalan()
     {
-
-        $data_coordinat = array();
-        $data_altitude = $this->AltitudeModel->getAll();
-        foreach ($data_altitude as $row) :
-            array_push($data_coordinat, [$row->latitude, $row->longitude, $row->altitude]);
-        endforeach;
-
         $dataJalanRusak = array();
         $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
         foreach ($dataJalanRusakDariDB as $row) :
@@ -74,7 +58,6 @@ class Maps extends CI_Controller
         $data = [
             'title' => 'Maps',
             'content' => 'vMapsMobileDeteksiJalanRusak',
-            'data_altitude' => $data_coordinat,
             'data_jalan_rusak' => $dataJalanRusak,
         ];
 
@@ -105,11 +88,7 @@ class Maps extends CI_Controller
         } else {
             $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
         }
-        $data_coordinat = array();
-        $data_altitude = $this->AltitudeModel->getAll();
-        foreach ($data_altitude as $row) :
-            array_push($data_coordinat, [$row->latitude, $row->longitude, $row->altitude]);
-        endforeach;
+
 
         $dataJalanRusak = array();
         foreach ($dataJalanRusakDariDB as $row) :
@@ -124,7 +103,6 @@ class Maps extends CI_Controller
         $data = [
             'title' => 'Maps',
             'content' => 'vMapsMobile',
-            'data_altitude' => $data_coordinat,
             'data_jalan_rusak' => $dataJalanRusak,
             'data_jalan_menanjak' => $dataJalanMenanjak,
         ];
@@ -138,11 +116,7 @@ class Maps extends CI_Controller
         // check is token valid
         $isTokenValid = $this->UsersModel->cekToken($token);
         if ($isTokenValid) {
-            $data_coordinat = array();
-            $data_altitude = $this->AltitudeModel->getAll();
-            foreach ($data_altitude as $row) :
-                array_push($data_coordinat, [$row->latitude, $row->longitude, $row->altitude]);
-            endforeach;
+
 
             $dataJalanRusak = array();
             $dataJalanRusakDariDB = $this->LocationModel->getDataForVerification();
@@ -153,7 +127,6 @@ class Maps extends CI_Controller
             $data = [
                 'title' => 'Edit Verifikasi',
                 'content' => 'vMapsMobileEditVerifikasi',
-                'data_altitude' => $data_coordinat,
                 'data_jalan_rusak' => $dataJalanRusak,
                 'token' => $token
             ];
@@ -163,41 +136,6 @@ class Maps extends CI_Controller
             redirect("Auth");
         }
     }
-
-    public function demo()
-    {
-        // check is token valid
-
-
-        $data_coordinat = array();
-        $data_altitude = $this->AltitudeModel->getAll();
-        foreach ($data_altitude as $row) :
-            array_push($data_coordinat, [$row->latitude, $row->longitude, $row->altitude]);
-        endforeach;
-
-        $dataJalanRusak = array();
-        $dataJalanRusakDariDB = $this->LocationModel->getDataRusak();
-        foreach ($dataJalanRusakDariDB as $row) :
-            array_push($dataJalanRusak, [$row->id, $row->latitude, $row->longitude, $row->status, $row->img_path]);
-        endforeach;
-
-        $dataJalanMenanjak = array();
-        $dataJalanMenanjakDariDB = $this->UphillroadModel->getAll();
-        foreach ($dataJalanMenanjakDariDB as $row) :
-            array_push($dataJalanMenanjak, [$row->id, $row->highest_lat, $row->highest_long, $row->lowest_lat, $row->lowest_long]);
-        endforeach;
-        $data = [
-            'title' => 'Maps',
-            'content' => 'vMaps',
-            'data_altitude' => $data_coordinat,
-            'data_jalan_rusak' => $dataJalanRusak,
-            'data_jalan_menanjak' => $dataJalanMenanjak,
-        ];
-        // var_dump($dataJalanRusak[1]);
-        // var_dump($dataJalanMenanjak);
-        $this->load->view('vDemo', $data);
-    }
-
 
     public function add()
     {
@@ -353,7 +291,7 @@ class Maps extends CI_Controller
                 'lowestlng'     => $_SESSION['lowestlng']
             ];
             var_dump($data);
-            $this->AltitudeModel->uphill_road($data);
+            $this->UphillroadModel->uphill_road($data);
             unset(
                 $_SESSION['highestlat'],
                 $_SESSION['highestlng'],
@@ -366,13 +304,38 @@ class Maps extends CI_Controller
     }
 
 
-
-    public function konfirmasiTitikTanjakan()
+    public function demo()
     {
-        $latitude = $this->input->post("lat");
-        $longitude = $this->input->post("lng");
-        $token = $this->input->post("token");
-        $data_user = $this->UsersModel->cekToken($token);
-        $id = $data_user->id;
+        // check is token valid
+        $dataJalanRusak = array();
+        $dataJalanRusakDariDB = $this->LocationModel->getDataRusak();
+        foreach ($dataJalanRusakDariDB as $row) :
+            array_push($dataJalanRusak, [$row->id, $row->latitude, $row->longitude, $row->status, $row->img_path]);
+        endforeach;
+
+        $dataJalanMenanjak = array();
+        $dataJalanMenanjakDariDB = $this->UphillroadModel->getAll();
+        foreach ($dataJalanMenanjakDariDB as $row) :
+            array_push($dataJalanMenanjak, [$row->id, $row->highest_lat, $row->highest_long, $row->lowest_lat, $row->lowest_long]);
+        endforeach;
+        $data = [
+            'title' => 'Maps',
+            'content' => 'vMaps',
+            'data_jalan_rusak' => $dataJalanRusak,
+            'data_jalan_menanjak' => $dataJalanMenanjak,
+        ];
+        // var_dump($dataJalanRusak[1]);
+        // var_dump($dataJalanMenanjak);
+        $this->load->view('vDemo', $data);
     }
+
+
+    // public function konfirmasiTitikTanjakan()
+    // {
+    //     $latitude = $this->input->post("lat");
+    //     $longitude = $this->input->post("lng");
+    //     $token = $this->input->post("token");
+    //     $data_user = $this->UsersModel->cekToken($token);
+    //     $id = $data_user->id;
+    // }
 }

@@ -34,8 +34,17 @@
 
     // untuk mengcustom marker device location
     var userDeviceLocationIcon = L.icon({
-        iconUrl: main_url + 'assets/js/userDeviceLocation.png',
+        iconUrl: main_url + 'assets/img/userDeviceLocation.png',
         iconSize: [30, 30], // size of the icon
+    });
+
+    var jalanTertinggi = L.icon({
+        iconUrl: main_url + 'assets/img/up.png',
+        iconSize: [30, 30]
+    });
+    var jalanTerendah = L.icon({
+        iconUrl: main_url + 'assets/img/down.png',
+        iconSize: [30, 30]
     });
     //untuk memanggil geosjon kecamatan
     var dataKecamatan = [

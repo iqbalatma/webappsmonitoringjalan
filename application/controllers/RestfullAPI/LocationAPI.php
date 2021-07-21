@@ -35,8 +35,6 @@ class LocationAPI extends REST_Controller
             //ambil data dari model, sesuaikan dengan kebutuhan field
             $data = $this->LocationMode->getAll();
         }
-
-
         if ($data) { //kalau data ada pada database akan merespon dan mengembalikan data
             $this->response(
                 [
@@ -59,9 +57,6 @@ class LocationAPI extends REST_Controller
     public function index_post()
     {
         $input = $this->input->post(); // data dari method post, dimasukkan dalam variabel input dengan masing-masing valuanya kemudian di insert kedalam database
-
-
-
         $this->LocationModel->saveAcc($input);
         $this->response(
             [
@@ -72,21 +67,5 @@ class LocationAPI extends REST_Controller
             ],
             REST_Controller::HTTP_OK
         );
-    }
-
-
-
-
-    //http delete belum digunakan
-    public function index_delete($id)
-    {
-
-        $data = $this->db->get_where("accelerometer", ['id' => $id])->row_array();
-        if ($data) {
-            $delete = $this->db->delete("accelerometer", array('id' => $id));
-            $this->response(['Item deleted successfully.'], REST_Controller::HTTP_OK);
-        } else {
-            $this->response(['Deleted item failed.'], REST_Controller::HTTP_OK);
-        }
     }
 }

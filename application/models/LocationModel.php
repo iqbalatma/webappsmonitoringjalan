@@ -48,12 +48,13 @@ class LocationModel extends CI_Model
 
 
 
+    //save data from rest
     public function saveAcc($data)
     {
         $latitude = doubleval($data["latitude"]);
         $longitude = doubleval($data["longitude"]);
         $cek_lokasi = $this->db->query("SELECT * FROM location where latitude = $latitude AND longitude = $longitude")->result_array();
-        if ($cek_lokasi) {
+        if ($cek_lokasi) { //berarti lokasi sudah ada di db
             //lat long ada tapi tidak rusak
             $id_location = $cek_lokasi[0]["id"];
             $status = $cek_lokasi[0]["status"];
@@ -77,22 +78,4 @@ class LocationModel extends CI_Model
     {
         return $this->db->query("SELECT * FROM location ORDER BY id DESC LIMIT 1")->result_array();
     }
-
-
-    // BELUM DIGUNAKAN
-
-    // public function update()
-    // {
-    //     // $post = $this->input->post();
-    //     // $this->product_id = $post["id"];
-    //     // $this->name = $post["name"];
-    //     // $this->price = $post["price"];
-    //     // $this->description = $post["description"];
-    //     // return $this->db->update($this->_table, $this, array('product_id' => $post['id']));
-    // }
-
-    // public function delete($id)
-    // {
-    //     // return $this->db->delete($this->_table, array("product_id" => $id));
-    // }
 }

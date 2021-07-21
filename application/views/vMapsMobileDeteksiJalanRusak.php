@@ -231,6 +231,7 @@
 
         titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
 
+        console.log(titikJalanRusakFinal)
 
     });
 </script>

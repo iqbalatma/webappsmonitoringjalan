@@ -11,14 +11,14 @@ class AltitudeModel extends CI_Model
     }
     protected $table      = 'altitude';
     protected $table_location = 'location';
-    protected $table_device_surveyor = 'device_surveyor';
+    protected $table_device_info = 'device_info';
     protected $primaryKey = 'id';
     protected $returnType     = 'array';
 
 
     public function getAll()
     {
-        return $this->db->query("SELECT altitude.id, altitude.altitude, altitude.date, location.latitude, location.longitude, location.kecamatan, device_surveyor.android_id, device_surveyor.id as device_id FROM altitude INNER JOIN location ON altitude.location_id = location.id INNER JOIN device_surveyor ON altitude.device_id = device_surveyor.id")->result();
+        return $this->db->query("SELECT altitude.id, altitude.altitude, altitude.date, location.latitude, location.longitude, location.kecamatan, device_info.android_id, device_info.id as device_id FROM altitude INNER JOIN location ON altitude.location_id = location.id INNER JOIN device_info ON altitude.device_id = device_info.id")->result();
     }
 
     public function getById($id)
@@ -35,16 +35,16 @@ class AltitudeModel extends CI_Model
         $longitude = $data["longitude"];
         $android_id = $data["android_id"];
 
-        $cek_android_id = $this->db->query("SELECT * FROM device_surveyor where android_id = '$android_id'")->result_array();
+        $cek_android_id = $this->db->query("SELECT * FROM device_info where android_id = '$android_id'")->result_array();
 
         if ($cek_android_id) {
             $android_primary_key = $cek_android_id[0]["id"];
         } else {
-            $data_device_surveyor = [
+            $data_device_info = [
                 "id" => "",
                 "android_id" => $android_id
             ];
-            $this->db->insert($this->table_device_surveyor, $data_device_surveyor);
+            $this->db->insert($this->table_device_info, $data_device_info);
             $android_primary_key = $this->getLastDeviceSurveyor();
             $android_primary_key = $android_primary_key[0]["id"];
         }
@@ -95,7 +95,7 @@ class AltitudeModel extends CI_Model
 
     public function getLastDeviceSurveyor()
     {
-        return $this->db->query("SELECT * FROM device_surveyor ORDER BY id DESC LIMIT 1")->result_array();
+        return $this->db->query("SELECT * FROM device_info ORDER BY id DESC LIMIT 1")->result_array();
     }
 
     public function uphill_road($data)

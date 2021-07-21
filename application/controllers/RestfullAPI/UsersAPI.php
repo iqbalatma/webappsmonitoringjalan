@@ -26,6 +26,8 @@ class UsersAPI extends REST_Controller
         parent::__construct();
         // $this->load->model("UsersModel");
     }
+
+    //untuk cek login
     public function index_get($username = "", $password = "")
     {
         $data = null;
@@ -43,7 +45,6 @@ class UsersAPI extends REST_Controller
                         'token' => $data["token"]
                     ];
                     $this->session->set_userdata($session);
-
 
                     $this->response([
                         [
