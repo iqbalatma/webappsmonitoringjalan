@@ -23,8 +23,6 @@ class Dashboard extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("UsersModel");
-		$this->load->model("AccelerometerModel");
-		$this->load->model("AltitudeModel");
 		$this->load->model("LocationModel");
 	}
 	public function index()
@@ -67,7 +65,6 @@ class Dashboard extends CI_Controller
 
 		$this->load->view('templateDashboard/wrapper', $data);
 	}
-
 
 
 	public function chart()

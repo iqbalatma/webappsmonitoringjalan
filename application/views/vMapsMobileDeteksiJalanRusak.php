@@ -96,16 +96,11 @@
                 // console.log(jarak) // untuk debug
             }
 
-            // $("#alert-jarak").html("Hati-hati ! " + jarakTerpendek + " km ada jalan berlubang");
-            // $("#alert-jarak").show();
-            // jarakTerpendek = false; //untuk mengosongkan jarak terpendek
-            // console.log("jarak aktif")
-            $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
-            $("#alert-jarak").show();
-            jarakTerpendek = false;
 
             if (jarakTerpendek < 100) {
-
+                $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
+                $("#alert-jarak").show();
+                jarakTerpendek = false;
             }
         }
     }
@@ -121,8 +116,8 @@
         lineOptions: {
             styles: [{
                 color: 'blue',
-                opacity: 10,
-                weight: 5
+                opacity: 1,
+                weight: 3
             }]
         }
     }).addTo(map);
@@ -136,6 +131,7 @@
 
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
+            controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
             map.closePopup();
         });
 
@@ -233,6 +229,20 @@
 
         console.log(titikJalanRusakFinal)
 
+
+        iqbal = L.Routing.control({
+            waypoints: [
+                // L.latLng(lat, long),
+            ],
+            lineOptions: {
+                styles: [{
+                    color: 'red',
+                    opacity: 1,
+                    weight: 3
+                }]
+            }
+        }).addTo(map);
+
     });
 </script>
 
@@ -240,23 +250,7 @@
 
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
-    var data_jalan_rusak = <?php echo json_encode($data_jalan_rusak); ?>;
-    var addressPoints = data_jalan_rusak
-
-    // var demo = L.Routing.control({
-    //     waypoints: [
-    //         L.latLng(addressPoints[0][0], addressPoints[0][1]),
-    //         L.latLng(addressPoints[1][0], addressPoints[1][1]),
-    //     ],
-    //     lineOptions: {
-    //         styles: [{
-    //             color: 'red',
-    //             opacity: 10,
-    //             weight: 5
-    //         }]
-    //     }
-    // }).addTo(map);
-    // console.log(addressPoints)
+    var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;
 </script>
 <script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script>
 <!-- TUTUP MARKER CLUSTER -->

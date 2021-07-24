@@ -56,7 +56,7 @@ class Maps extends CI_Controller
         endforeach;
 
         $data = [
-            'title' => 'Maps',
+            'title' => 'Deteksi Jalan Rusak',
             'content' => 'vMapsMobileDeteksiJalanRusak',
             'data_jalan_rusak' => $dataJalanRusak,
         ];
@@ -101,7 +101,7 @@ class Maps extends CI_Controller
             array_push($dataJalanMenanjak, [$row->id, $row->highest_lat, $row->highest_long, $row->lowest_lat, $row->lowest_long]);
         endforeach;
         $data = [
-            'title' => 'Maps',
+            'title' => 'Peta Digital',
             'content' => 'vMapsMobile',
             'data_jalan_rusak' => $dataJalanRusak,
             'data_jalan_menanjak' => $dataJalanMenanjak,
@@ -328,14 +328,4 @@ class Maps extends CI_Controller
         // var_dump($dataJalanMenanjak);
         $this->load->view('vDemo', $data);
     }
-
-
-    // public function konfirmasiTitikTanjakan()
-    // {
-    //     $latitude = $this->input->post("lat");
-    //     $longitude = $this->input->post("lng");
-    //     $token = $this->input->post("token");
-    //     $data_user = $this->UsersModel->cekToken($token);
-    //     $id = $data_user->id;
-    // }
 }

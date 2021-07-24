@@ -196,6 +196,7 @@
         }
     });
 
+    //ketika marker belum di cluster, maka event click akan melalui method ini
     markers.on('click', function(a) {
         $('#myModal').modal('show');
         document.getElementById('idlocation').value = a.layer.options.locationid;
@@ -281,7 +282,14 @@
     controlRouting = L.Routing.control({
         waypoints: [
             L.latLng(latcurrentdevice, longcurrentdevice),
-        ]
+        ],
+        lineOptions: {
+            styles: [{
+                color: 'blue',
+                opacity: 1,
+                weight: 3
+            }]
+        },
     }).addTo(map);
 
     map.on('click', function(e) {
@@ -290,6 +298,7 @@
             destBtn = createButton('Menuju lokasi ini', container);
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
+            controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
             map.closePopup();
         });
         L.DomEvent.on(startBtn, 'click', function() {

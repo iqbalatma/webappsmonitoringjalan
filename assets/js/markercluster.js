@@ -1,11 +1,3 @@
-    //sampel data, coba ambil dari database
-    //contoh titik alamat, ambil dari database
-   
-
-
-
-
-    
     var markers = L.markerClusterGroup({
         spiderfyShapePositions: function(count, centerPt) {
             var distanceFromCenter = 35,
@@ -20,14 +12,12 @@
             for (i = count - 1; i >= 0; i--) {
                 res[i] = new Point(centerPt.x + distanceFromCenter, lineStart + markerDistance * i);
             }
-
             return res;
         }
     });
 
     //ini adalah on click ketika marker cluster di klik
     markers.on('clusterclick', function(a) {
-        // a.layer is actually a cluster
         console.log('cluster ' + a.layer.getAllChildMarkers().length);
     });
 
