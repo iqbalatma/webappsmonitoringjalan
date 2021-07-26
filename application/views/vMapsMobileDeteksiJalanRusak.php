@@ -102,6 +102,8 @@
                 $("#alert-jarak").show();
                 jarakTerpendek = false;
             }
+
+
         }
     }
 </script>
@@ -119,7 +121,8 @@
                 opacity: 1,
                 weight: 3
             }]
-        }
+        },
+        autoRoute: true
     }).addTo(map);
 
     map.on('click', function(e) {
@@ -133,6 +136,7 @@
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
             map.closePopup();
+            console.log(controlRouting.getWaypoints());
         });
 
         L.DomEvent.on(startBtn, 'click', function() {
@@ -155,22 +159,45 @@
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            koordinatejalanrusak = this.responseText
+            koordinatejalanrusakjson = this.responseText
         }
     };
 
 
     // inisiasi variabel global
-    var jalanRusakYangDilalui = [];
+
     var titikJalanRusakFinal = [];
+    var demo;
+    demo = L.Routing.control({
+        waypoints: [
+            // L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
+            // L.latLng(jalanRusakYangDilalui[1][0], jalanRusakYangDilalui[1][1]),
+        ],
+        lineOptions: {
+            styles: [{
+                color: 'red',
+                opacity: 10,
+                weight: 10
+            }]
+        },
+        createMarker: function() {
+            return null;
+        }
+
+    })
+
 
     // event ketika rute ditemukan
-    controlRouting.on('routesfound', function(e) {
 
-        koordinatejalanrusak = JSON.parse(koordinatejalanrusak) //dari db
+    controlRouting.on('routingerror', function(e) {
+        console.log(e);
+    })
+    controlRouting.on('routesfound', function(e) {
+        var jalanRusakYangDilalui = [];
+        koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
         coordinateFromRoute = e.routes[0].coordinates; //dari rute
-        // console.log(koordinatejalanrusak)
-        // console.log(coordinateFromRoute)
+
+
 
 
         var lat1, lat2, long1, long2;
@@ -193,55 +220,52 @@
                 }
             }
         }
-        // data jalan rusak yang dilalui sudah didapat tapi masih terdapat data duplicate dan akan difilter dengan kode dibawah
-        var jalanRusakYangDilaluiFilteredFirstStep = jalanRusakYangDilalui.filter((t = {}, a => !(t[a] = a in t)));
 
 
 
-
-        //buat variabel untuk data sudah diperiksa jaraknya, jadi kita akan menghapus data titik jalan rusak yang berdekatan
-        var jalanRusakYangDilaluiFilteredSecondStep = [];
-        //lakukan perulangan pada semua data titik jalan rusak yang telah difilter
-        for (let i = 0; i < jalanRusakYangDilaluiFilteredFirstStep.length; i++) {
-            // kalau array data yang jaraknya diperiksa ternyata masih kosong, lakukan push tanpa pengecekan
-            if (jalanRusakYangDilaluiFilteredSecondStep.length == 0) { //kalau arraynya masih kosong, masukkan saja
-                jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
-            } else { //kalau arraynya tidak kosong, lakukan pengecekan jarak yang akan masuk (perulangan terluar) dan yang ada didalam array (perulangan terdalam)
-                // kalau array tidak kosong, maka data yang sedang dijalankan pada array filtered akan di cocokkan dengan data titik pada array yang jaraknya diperiksa, dengan melakukan perulangan pada array yang jaraknya diperiksa
-                for (let j = 0; j < jalanRusakYangDilaluiFilteredSecondStep.length; j++) {
-                    lat1 = jalanRusakYangDilaluiFilteredFirstStep[i][0]; //lat
-                    long1 = jalanRusakYangDilaluiFilteredFirstStep[i][1]; //long
-                    lat2 = jalanRusakYangDilaluiFilteredSecondStep[j][0]; //lat
-                    long2 = jalanRusakYangDilaluiFilteredSecondStep[j][1]; //long
-                    jarak = distance(lat1, long1, lat2, long2, "M");
-                    // apabila jaraknya lebih dari 100 meter maka titik tersebut akan dianggap sebagai titik lainnya dan akan dipisahkan untuk memberikan notif
-                    if (jarak > 100) {
-                        jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
-                        break
+        if (jalanRusakYangDilalui.length > 0) {
+            // data jalan rusak yang dilalui sudah didapat tapi masih terdapat data duplicate dan akan difilter dengan kode dibawah
+            var jalanRusakYangDilaluiFilteredFirstStep = jalanRusakYangDilalui.filter((t = {}, a => !(t[a] = a in t)));
+            //buat variabel untuk data sudah diperiksa jaraknya, jadi kita akan menghapus data titik jalan rusak yang berdekatan
+            var jalanRusakYangDilaluiFilteredSecondStep = [];
+            //lakukan perulangan pada semua data titik jalan rusak yang telah difilter
+            for (let i = 0; i < jalanRusakYangDilaluiFilteredFirstStep.length; i++) {
+                // kalau array data yang jaraknya diperiksa ternyata masih kosong, lakukan push tanpa pengecekan
+                if (jalanRusakYangDilaluiFilteredSecondStep.length == 0) { //kalau arraynya masih kosong, masukkan saja
+                    jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
+                } else { //kalau arraynya tidak kosong, lakukan pengecekan jarak yang akan masuk (perulangan terluar) dan yang ada didalam array (perulangan terdalam)
+                    // kalau array tidak kosong, maka data yang sedang dijalankan pada array filtered akan di cocokkan dengan data titik pada array yang jaraknya diperiksa, dengan melakukan perulangan pada array yang jaraknya diperiksa
+                    for (let j = 0; j < jalanRusakYangDilaluiFilteredSecondStep.length; j++) {
+                        lat1 = jalanRusakYangDilaluiFilteredFirstStep[i][0]; //lat
+                        long1 = jalanRusakYangDilaluiFilteredFirstStep[i][1]; //long
+                        lat2 = jalanRusakYangDilaluiFilteredSecondStep[j][0]; //lat
+                        long2 = jalanRusakYangDilaluiFilteredSecondStep[j][1]; //long
+                        jarak = distance(lat1, long1, lat2, long2, "M");
+                        // apabila jaraknya lebih dari 100 meter maka titik tersebut akan dianggap sebagai titik lainnya dan akan dipisahkan untuk memberikan notif
+                        if (jarak > 100) {
+                            jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
+                            break
+                        }
                     }
                 }
+
             }
 
+
+            titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
+            map.removeLayer(markers);
+            demo.setWaypoints([
+                L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
+                L.latLng(jalanRusakYangDilalui[1][0], jalanRusakYangDilalui[1][1]),
+            ]);
+
+            demo.addTo(map);
+            demo.hide();
+        } else {
+            map.addLayer(markers);
         }
 
 
-        titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
-
-        console.log(titikJalanRusakFinal)
-
-
-        iqbal = L.Routing.control({
-            waypoints: [
-                // L.latLng(lat, long),
-            ],
-            lineOptions: {
-                styles: [{
-                    color: 'red',
-                    opacity: 1,
-                    weight: 3
-                }]
-            }
-        }).addTo(map);
 
     });
 </script>
