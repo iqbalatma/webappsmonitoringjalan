@@ -77,7 +77,7 @@
 
         featureGroup = L.featureGroup([markerUser, circle]).addTo(map);
 
-
+        // console.log("ho")
         if (titikJalanRusakFinal.length == 0) {
             // ketika user belum menentukan titik rute maka titik jalan rusak yang dilalui akan kosong
             console.log("Titik jalan rusak tidak ada")
@@ -99,9 +99,8 @@
                 }
             }
 
-            // console.log(jarak) // untuk debug
-            // console.log(titikJalanRusakFinal.length) // untuk debug
-            // console.log(titikJalanRusakFinal)
+
+
             if (jarakTerpendek < 100) {
                 $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
                 $("#alert-jarak").show();
@@ -120,6 +119,8 @@
 <!-- ROUTING MACHINE -->
 <script>
     controlRouting = L.Routing.control({
+        // fitSelectedRoutes: false,
+        useZoomParameter: false,
         waypoints: [
             // L.latLng(lat, long),
         ],
@@ -130,7 +131,7 @@
                 weight: 3
             }]
         },
-        autoRoute: true
+        // autoRoute: true
     }).addTo(map);
 
     map.on('click', function(e) {
@@ -173,34 +174,16 @@
 
 
     // inisiasi variabel global
-
     var titikJalanRusakFinal = [];
-    var demo;
-    demo = L.Routing.control({
-        waypoints: [
-            // L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
-            // L.latLng(jalanRusakYangDilalui[1][0], jalanRusakYangDilalui[1][1]),
-        ],
-        lineOptions: {
-            styles: [{
-                color: 'red',
-                opacity: 10,
-                weight: 10
-            }]
-        },
-        createMarker: function() {
-            return null;
-        }
-
-    })
 
 
-    // event ketika rute ditemukan
 
     controlRouting.on('routingerror', function(e) {
         console.log(e);
     })
+    var demo = [];
     controlRouting.on('routesfound', function(e) {
+
         var jalanRusakYangDilalui = [];
         koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
         coordinateFromRoute = e.routes[0].coordinates; //dari rute
@@ -262,15 +245,57 @@
 
             titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
             map.removeLayer(markers);
-            demo.setWaypoints([
-                L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
-                L.latLng(jalanRusakYangDilalui[1][0], jalanRusakYangDilalui[1][1]),
-            ]);
 
-            demo.addTo(map);
-            demo.hide();
+
+
+
+            // UNTUK MENAMBAHKAN TITIK JALAN RUSAK JADI RUTE MERAH
+
+            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
+                demo[i] = L.Routing.control({
+                    fitSelectedRoutes: false,
+                    useZoomParameter: false,
+                    waypoints: [
+                        L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
+                        L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
+                    ],
+                    lineOptions: {
+                        styles: [{
+                            color: 'red',
+                            opacity: 10,
+                            weight: 10
+                        }]
+                    },
+                    createMarker: function() {
+                        return null;
+                    }
+                })
+                demo[i].addTo(map);
+                demo[i].hide();
+            }
+
+
+
+            // demo.setWaypoints([
+            //     // L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
+            //     // L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
+            //     L.latLng(titikJalanRusakFinal[1][0], titikJalanRusakFinal[1][1]),
+            //     L.latLng(titikJalanRusakFinal[1][0], titikJalanRusakFinal[1][1]),
+            // ]);
+
+
+
         } else {
+            //untuk menghapus rute merah dan memasukkan marker
+
             map.addLayer(markers);
+            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
+                demo[i].setWaypoints([
+
+                ]);
+            }
+
+
         }
 
 

@@ -156,6 +156,7 @@
 
 
         var uphillRoadControl = L.Routing.control({
+            fitSelectedRoutes: false,
             waypoints: polylinePoints,
             routeWhileDragging: true,
             lineOptions: {
@@ -181,8 +182,7 @@
         uphillRoadControl.hide();
     }
     uphillRoadControl.on('routesfound', function(e) {
-        // map.fitBounds(featureGroup.getBounds());
-
+        console.log("Rute Jalan Menanjak Ditemukan")
     })
 </script>
 
