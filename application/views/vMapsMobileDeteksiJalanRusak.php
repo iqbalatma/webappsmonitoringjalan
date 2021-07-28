@@ -84,23 +84,31 @@
         } else {
             // Ketika rute ditemukan dan terdapat jalan rusak pada rute tersebut
             //cari dulu jarak terpendek dari titik user baru tampilkan alert
+            var index;
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
                 jarak = distance(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1], latdevice, longdevice, "M");
                 if (jarakTerpendek == false) { //berarti jarak terpendek belum di set
                     jarakTerpendek = jarak
+                    index = i;
                 } else { //kalau jarak terpendek sudah diset, maka selanjutnya adalah membandingkan jarak di variabel dengan di looping
                     if (jarakTerpendek > jarak) { //jika jarak terpendek lebih besar dari jarak, berarti jarak terbaru tersebut merupakan jarak lebih pendek, simpan ke variabel
                         jarakTerpendek = jarak
+                        index = i;
+                        // console.log(titikJalanRusakFinal[i])
                     }
                 }
-                // console.log(jarak) // untuk debug
             }
 
-
+            // console.log(jarak) // untuk debug
+            // console.log(titikJalanRusakFinal.length) // untuk debug
+            // console.log(titikJalanRusakFinal)
             if (jarakTerpendek < 100) {
                 $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
                 $("#alert-jarak").show();
                 jarakTerpendek = false;
+                if (jarakTerpendek < 5) {
+                    titikJalanRusakFinal.splice(index, 1)
+                }
             }
 
 
