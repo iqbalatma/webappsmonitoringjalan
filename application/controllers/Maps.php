@@ -162,33 +162,27 @@ class Maps extends CI_Controller
             $messageFlash = "";
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('image_upload')) {
+                echo "gagal";
                 $messageFlash = $this->upload->display_errors();
                 // var_dump($error_message);
                 $this->session->set_flashdata('msg', "<div class='alert alert-danger fixed-top' role='alert'>$messageFlash</div>");
             } else {
+                echo "berhasil";
                 $metadata = array('image_metadata' => $this->upload->data());
-                $messageFlash = "Gambar Berhasil Ditambahkan";
+                $data = [
+                    "latitude" => $latitude,
+                    "longitude" => $longitude,
+                    "status" => $status,
+                    "kecamatan" => $kecamatan,
+                    "update_by" => $id_user,
+                    "verifikasi" => 1,
+                    "img_path" => $upload_path
+                ];
+                // SEPARATE
+                $this->LocationModel->add($data);
+                $messageFlash = "Berhasil menambahkan jalan rusak";
                 $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
             }
-
-
-
-
-
-            $data = [
-                "latitude" => $latitude,
-                "longitude" => $longitude,
-                "status" => $status,
-                "kecamatan" => $kecamatan,
-                "update_by" => $id_user,
-                "verifikasi" => 1,
-                "img_path" => $upload_path
-            ];
-            // SEPARATE
-            $this->LocationModel->add($data);
-
-
-
             redirect('Maps/verifikasijalan/' . $token);
         } else {
             redirect("Auth");
@@ -198,6 +192,33 @@ class Maps extends CI_Controller
 
     public function edit()
     {
+
+        // ambil data dari method post
+        // echo "<pre>";
+        // $token = $this->input->post("token");
+        // $status = $this->input->post("status");
+        // $idlocation = $this->input->post("idlocation");
+        // echo "</pre>";
+
+        // $result = $this->db->query("INSERT INTO testing (token, status, id) VALUES ('$token', '$status', '$idlocation')");
+
+        // if ($result == true) {
+        //     // echo "insert berhasil";
+        //     $messageFlash = "Data Berhasil Ditambahkan";
+
+        //     $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
+        // } else {
+        //     $messageFlash = "Data Gagal Ditambahkan";
+
+        //     $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
+        // }
+
+        // redirect('Maps/verifikasijalan/' . $token);
+
+
+
+
+
         $token = $this->input->post("token");
         $isTokenValid = $this->UsersModel->cekToken($token);
         $id_user = $isTokenValid->id;
@@ -223,24 +244,26 @@ class Maps extends CI_Controller
                 // var_dump($error_message);
                 $this->session->set_flashdata('msg', "<div class='alert alert-danger fixed-top' role='alert'>$messageFlash</div>");
             } else {
+                // SEPARATE
+                $query_condition = "";
+                for ($i = 0; $i < count($id_location); $i++) {
+                    if ($i == count($id_location) - 1) {
+                        $query_condition = $query_condition . "id = $id_location[$i]";
+                    } else {
+                        $query_condition = $query_condition . "id = $id_location[$i] OR ";
+                    }
+                }
+                $this->db->query("UPDATE location SET update_by = $id_user,status = '$status', verifikasi = 1, img_path = '$upload_path' WHERE $query_condition");
                 $metadata = array('image_metadata' => $this->upload->data());
-                $messageFlash = "Gambar Berhasil Ditambahkan";
+                $messageFlash = "Berhasil memperbaharui status dan verifikasi jalan";
+
+
                 $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
             }
 
 
 
 
-            // SEPARATE
-            $query_condition = "";
-            for ($i = 0; $i < count($id_location); $i++) {
-                if ($i == count($id_location) - 1) {
-                    $query_condition = $query_condition . "id = $id_location[$i]";
-                } else {
-                    $query_condition = $query_condition . "id = $id_location[$i] OR ";
-                }
-            }
-            $this->db->query("UPDATE location SET update_by = $id_user,status = '$status', verifikasi = 1, img_path = '$upload_path' WHERE $query_condition");
 
 
 
