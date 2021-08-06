@@ -139,11 +139,6 @@
     }];
 </script>
 
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/heightgraph.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#tabel-data').DataTable();
-    });
-</script>
+
 
 </html>
