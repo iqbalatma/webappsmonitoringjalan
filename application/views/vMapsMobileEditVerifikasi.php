@@ -102,7 +102,7 @@
                     <input type="hidden" name="posisi" id="posisi" value="">
                     <input type="hidden" name="token" id="token" value="<?= $token; ?>" />
                     <div class="modal-body">
-                        <p>Apakah anda yakin ini adalah titik tertinggi/terendah jalan menanjak ?</p>
+                        <p id="messagemodal"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Tidak</button>
@@ -130,12 +130,14 @@
         document.getElementById('lat').value = latdevice;
         document.getElementById('lng').value = longdevice;
         document.getElementById('posisi').value = "tertinggi";
+        document.getElementById('messagemodal').innerHTML = "Apakah anda yakin ini adalah titik tertinggi jalan menanjak ?";
     }).addTo(map);
     L.easyButton('fa fa-caret-down', function(btn, map) {
         $('#modalKonfirmasiUp').modal('show');
         document.getElementById('lat').value = latdevice;
         document.getElementById('lng').value = longdevice;
         document.getElementById('posisi').value = "terendah";
+        document.getElementById('messagemodal').innerHTML = "Apakah anda yakin ini adalah titik terendah jalan menanjak ?";
     }).addTo(map);
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());

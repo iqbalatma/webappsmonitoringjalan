@@ -58,12 +58,7 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url(); ?>/assets/js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="<?= base_url(); ?>/assets/vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="<?= base_url(); ?>/assets/js/demo/chart-area-demo.js"></script>
-<script src="<?= base_url(); ?>/assets/js/demo/chart-pie-demo.js"></script>
 
 <!-- data tables -->
 <script src="<?= base_url(); ?>/assets/vendor/datatables/jquery.dataTables.js"></script>
@@ -73,21 +68,11 @@
 
 <!-- Make sure you put this AFTER Leaflet's CSS -->
 <!-- LOADER -->
-<script type="module" src="<?= base_url(); ?>/assets/heightgraph/src/L.Control.Heightgraph.js"></script>
 <script src="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js"></script>
 
 
 </body>
 
-
-
-
-
-<!-- CATATAN SEKARANG
-    Inisiasi map sudah dipisahkan, marker cluster juga sudah dipisahkan, heightgraph juga terpisah. tinggal menggabungkan ketiganya menjadi gabungan yang terintegrasi
-    Jangan lupa revisi class diagram dan sequence diagram, jangan ngurusin coding mulu -->
-
-<!-- INISIASI CODE UNTUK MEMANGGIL MAP -->
 <script type="text/javascript" src="<?= base_url(); ?>/assets/js/inisiasimap.js"></script>
 
 
@@ -104,40 +89,6 @@
 </script>
 <script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script>
 
-
-
-
-<!-- HEIGHTGRAPH CODE-->
-<script type="text/javascript">
-    var data_altitude = <?php echo json_encode($data_altitude); ?>;
-    var final_altitude = [];
-    for (let i = 0; i < data_altitude.length; i++) {
-        final_altitude.push([data_altitude[i][1], data_altitude[i][0], data_altitude[i][2]]);
-    }
-    console.log(final_altitude);
-</script>
-
-<script type="text/javascript">
-    const geojson1 = [{
-        "type": "FeatureCollection",
-        "features": [{
-            "type": "Feature",
-            "geometry": {
-                "type": "LineString",
-                "coordinates": final_altitude
-            },
-            "properties": {
-                "attributeType": 0
-            }
-        }, ],
-        "properties": {
-            "Creator": "OpenRouteService.org",
-            "records": 10,
-            "summary": "surface",
-            "label": "Surface"
-        }
-    }];
-</script>
 
 
 

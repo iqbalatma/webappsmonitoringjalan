@@ -61,7 +61,6 @@ class Maps extends CI_Controller
             'data_jalan_rusak' => $dataJalanRusak,
         ];
 
-
         $this->load->view('TemplateMap/wrapper', $data);
     }
 
@@ -192,33 +191,6 @@ class Maps extends CI_Controller
 
     public function edit()
     {
-
-        // ambil data dari method post
-        // echo "<pre>";
-        // $token = $this->input->post("token");
-        // $status = $this->input->post("status");
-        // $idlocation = $this->input->post("idlocation");
-        // echo "</pre>";
-
-        // $result = $this->db->query("INSERT INTO testing (token, status, id) VALUES ('$token', '$status', '$idlocation')");
-
-        // if ($result == true) {
-        //     // echo "insert berhasil";
-        //     $messageFlash = "Data Berhasil Ditambahkan";
-
-        //     $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
-        // } else {
-        //     $messageFlash = "Data Gagal Ditambahkan";
-
-        //     $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
-        // }
-
-        // redirect('Maps/verifikasijalan/' . $token);
-
-
-
-
-
         $token = $this->input->post("token");
         $isTokenValid = $this->UsersModel->cekToken($token);
         $id_user = $isTokenValid->id;
@@ -347,8 +319,6 @@ class Maps extends CI_Controller
             'data_jalan_rusak' => $dataJalanRusak,
             'data_jalan_menanjak' => $dataJalanMenanjak,
         ];
-        // var_dump($dataJalanRusak[1]);
-        // var_dump($dataJalanMenanjak);
         $this->load->view('vDemo', $data);
     }
 }
