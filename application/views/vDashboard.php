@@ -18,9 +18,9 @@
 					<a href="<?= base_url(); ?>Dashboard/"><button type="button" class="mb-3 btn btn-primary">Data Jalan</button></a>
 					<a href="<?= base_url(); ?>Dashboard/jalanRusak"><button type="button" class="mb-3 btn btn-primary">Data Jalan Rusak</button></a>
 					<a href="<?= base_url(); ?>Dashboard/jalanRusakTerverifikasi"><button type="button" class="mb-3 btn btn-primary">Data Jalan Rusak Terverifikasi</button></a>
-					<a href="<?= base_url(); ?>Dashboard/altitude"><button type="button" class="mb-3 btn btn-primary">Data Altitude</button></a>
 
-					<table id="tabel-data" class="table table-striped table-bordered" width="100%" cellspacing="0">
+
+					<table id="myTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
 						<thead>
 							<tr>
 								<th>No</th>

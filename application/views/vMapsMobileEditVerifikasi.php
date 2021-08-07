@@ -2,6 +2,14 @@
 <!-- BODY HTML -->
 
 <body id="page-top">
+    <div class="container-sm">
+        <select class="custom-select custom-select-sm fixed-top" name="selectoption" id="selectoption">
+            <option selected>Pilih tampil data</option>
+            <option value="true">Jalan Rusak Terverifikasi</option>
+            <option value="false">Jalan Rusak Belum Terverifikasi</option>
+        </select>
+    </div>
+
     <?php if (!empty($this->session->flashdata('msg'))) {
         echo $this->session->flashdata('msg');
     }; ?>
@@ -119,11 +127,13 @@
 <!-- FOOTER UNTUK LOAD JAVASCRIPT -->
 <?php require("TemplateMap/footer.php"); ?>
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
-
-
-
 <!-- VARIABEL GLOBAL -->
 <script>
+    var token = "<?= $token; ?>";
+    $('select').on('change', function() {
+        var id_select = this.value;
+        window.location.replace(main_url + "Maps/verifikasijalan/" + token + "/" + id_select);
+    });
     // MENAMBAHKAN BUTTON
     L.easyButton('fa fa-caret-up', function(btn, map) {
         $('#modalKonfirmasiUp').modal('show');

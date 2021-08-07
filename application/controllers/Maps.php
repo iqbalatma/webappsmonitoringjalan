@@ -110,15 +110,19 @@ class Maps extends CI_Controller
         $this->load->view('TemplateMap/wrapper', $data);
     }
 
-    public function verifikasijalan($token)
+    public function verifikasijalan($token, $dataJalan = "")
     {
-        // check is token valid
         $isTokenValid = $this->UsersModel->cekToken($token);
         if ($isTokenValid) {
+            if ($dataJalan == "true") {
+                $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
+            } else {
+                $dataJalanRusakDariDB = $this->LocationModel->getDataForVerification();
+            }
 
 
             $dataJalanRusak = array();
-            $dataJalanRusakDariDB = $this->LocationModel->getDataForVerification();
+
             foreach ($dataJalanRusakDariDB as $row) :
                 array_push($dataJalanRusak, [$row->id, $row->latitude, $row->longitude, $row->status]);
             endforeach;
@@ -191,6 +195,9 @@ class Maps extends CI_Controller
 
     public function edit()
     {
+
+
+
         $token = $this->input->post("token");
         $isTokenValid = $this->UsersModel->cekToken($token);
         $id_user = $isTokenValid->id;
@@ -299,6 +306,8 @@ class Maps extends CI_Controller
     }
 
 
+
+    // DEMO BUKAN UNTUK PRODUCTIONS
     public function demo()
     {
         // check is token valid
