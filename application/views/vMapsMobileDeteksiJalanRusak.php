@@ -23,6 +23,8 @@
 <!-- CORE TEMPAT OPERASI DAN METHOD -->
 <script type="text/javascript">
     // membuat button untuk recenter
+    // inisiasi variabel global
+    var titikJalanRusakFinal = [];
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
     }).addTo(map);
@@ -100,15 +102,18 @@
             }
 
 
+            console.log(jarakTerpendek);
+
 
             if (jarakTerpendek < 100) {
                 $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
                 $("#alert-jarak").show();
-                jarakTerpendek = false;
                 if (jarakTerpendek < 5) {
+                    console.log("pemotongan tereksekusi");
                     titikJalanRusakFinal.splice(index, 1)
                 }
             }
+            jarakTerpendek = false;
 
 
         }
@@ -173,8 +178,7 @@
     };
 
 
-    // inisiasi variabel global
-    var titikJalanRusakFinal = [];
+
 
 
 
@@ -276,12 +280,7 @@
 
 
 
-            // demo.setWaypoints([
-            //     // L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
-            //     // L.latLng(jalanRusakYangDilalui[0][0], jalanRusakYangDilalui[0][1]),
-            //     L.latLng(titikJalanRusakFinal[1][0], titikJalanRusakFinal[1][1]),
-            //     L.latLng(titikJalanRusakFinal[1][0], titikJalanRusakFinal[1][1]),
-            // ]);
+
 
 
 

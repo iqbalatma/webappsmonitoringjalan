@@ -110,7 +110,7 @@ class Maps extends CI_Controller
         $this->load->view('TemplateMap/wrapper', $data);
     }
 
-    public function verifikasijalan($token, $dataJalan = "")
+    public function verifikasijalan($token = "", $dataJalan = "")
     {
         $isTokenValid = $this->UsersModel->cekToken($token);
         if ($isTokenValid) {
