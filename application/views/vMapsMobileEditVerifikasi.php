@@ -130,7 +130,7 @@
 <!-- VARIABEL GLOBAL -->
 <script>
     var token = "<?= $token; ?>";
-    $('select').on('change', function() {
+    $('#selectoption').on('change', function() {
         var id_select = this.value;
         window.location.replace(main_url + "Maps/verifikasijalan/" + token + "/" + id_select);
     });

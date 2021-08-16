@@ -77,7 +77,7 @@
                 chart.render();
             }
 
-            $.getJSON("<?= base_url() ?>/assets/js/accelerometer3sumbu.json", addData);
+            $.getJSON("<?= base_url() ?>/assets/js/accelerometer/acc_x1.json", addData);
 
             function toogleDataSeries(e) {
                 if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {

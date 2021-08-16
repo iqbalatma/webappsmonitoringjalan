@@ -69,23 +69,7 @@ class Dashboard extends CI_Controller
 
 	public function chart()
 	{
-		$data_from_table = $this->AccelerometerModel->getAll();
-		$data_from_table = $data_from_table;
-		$dataJson = json_decode(json_encode($data_from_table), true);
-		$data = [
-			"datajson" => $dataJson
-		];
 
-
-?>
-
-		<pre>
-		<?php
-		// var_dump($dataJson);
-		?>
-		</pre>
-
-<?php
-		$this->load->view('multichart', $data);
+		$this->load->view('multichart');
 	}
 }
