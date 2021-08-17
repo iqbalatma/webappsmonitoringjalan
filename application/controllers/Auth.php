@@ -56,6 +56,7 @@ class Auth extends CI_Controller
                 ];
                 $this->session->set_userdata($session);
                 redirect("Dashboard");
+                die;
             } else {
                 // Statement ketika login gagal
                 $is_logged_in = false;
