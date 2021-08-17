@@ -4,20 +4,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Dashboard extends CI_Controller
 {
 
+	private $jenis_data_jalan;
 	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
+	 * Ini adalah consturctor
 	 */
 	public function __construct()
 	{
@@ -25,47 +14,57 @@ class Dashboard extends CI_Controller
 		$this->load->model("UsersModel");
 		$this->load->model("LocationModel");
 	}
-	public function index()
+
+
+	/**
+	 * Ini adalah method index
+	 */
+	public function index($jenis_data_jalan = "")
 	{
+		$this->jenis_data_jalan = $jenis_data_jalan;
+
+		switch ($this->jenis_data_jalan) {
+			case "":
+				$this->jenis_data_jalan = $this->LocationModel->getAll();
+				break;
+			case "1":
+				$this->jenis_data_jalan = $this->LocationModel->getDataRusak();
+				break;
+			case "2":
+				$this->jenis_data_jalan = $this->LocationModel->getDataRusakTerverifikasi();
+				break;
+			case "3":
+				$this->jenis_data_jalan = $this->LocationModel->getDataDiperbaiki();
+				break;
+			default:
+				$this->jenis_data_jalan = $this->LocationModel->getAll();
+		}
 		$data = [
 			'title' => 'Dashboard',
 			'content' => 'vDashboard',
-			'dataAccelerometer' => $this->LocationModel->getAll(),
+			'dataAccelerometer' => $this->jenis_data_jalan
 		];
-
-		$this->load->view('templateDashboard/wrapper', $data);
-	}
-	public function jalanRusak()
-	{
-		$data = [
-			'title' => 'Dashboard',
-			'content' => 'vDashboard',
-			'dataAccelerometer' => $this->LocationModel->getDataRusak(),
-		];
-
-		$this->load->view('templateDashboard/wrapper', $data);
-	}
-	public function jalanRusakTerverifikasi()
-	{
-		$data = [
-			'title' => 'Dashboard',
-			'content' => 'vDashboard',
-			'dataAccelerometer' => $this->LocationModel->getDataRusakTerverifikasi(),
-		];
-
-		$this->load->view('templateDashboard/wrapper', $data);
-	}
-	public function altitude()
-	{
-		$data = [
-			'title' => 'Dashboard',
-			'content' => 'vAltitude',
-			'dataAccelerometer' => $this->AltitudeModel->getAll(),
-		];
-
-		$this->load->view('templateDashboard/wrapper', $data);
+		return $this->load->view('templateDashboard/wrapper', $data);
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/**
+	 * Ini adalah method untuk demo
+	 */
 
 	public function chart()
 	{

@@ -23,9 +23,15 @@ class LocationModel extends CI_Model
     {
         return $this->db->query("SELECT * FROM location WHERE status = 'Rusak'")->result();
     }
+
     public function getDataRusakTerverifikasi()
     {
         return $this->db->query("SELECT * FROM location WHERE status = 'Rusak' AND verifikasi =1")->result();
+    }
+
+    public function getDataDiperbaiki()
+    {
+        return $this->db->query("SELECT * FROM location WHERE status = 'Diperbaiki' AND verifikasi =1")->result();
     }
 
     public function getDataForVerification()
