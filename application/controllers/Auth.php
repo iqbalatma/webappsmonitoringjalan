@@ -18,7 +18,7 @@ class Auth extends CI_Controller
      */
     public function index()
     {
-        if (isset($_SESSION["isLoggedIn"]) && isset($_SESSION["isLoggedIn"]) == true) {
+        if (isset($_SESSION["is_logged_in"]) && isset($_SESSION["is_logged_in"]) == true) {
             redirect("Dashboard");
         } else {
             $data = [

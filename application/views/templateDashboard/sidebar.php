@@ -33,7 +33,7 @@
                 <a class="collapse-item" href="<?= base_url("Maps"); ?>">Maps Dashboard</a>
                 <a class="collapse-item" href="<?= base_url("Maps/petadigital"); ?>">Full Maps Tampil Data</a>
                 <?php
-                if (isset($_SESSION["isLoggedIn"]) && $_SESSION["isLoggedIn"] === true) {
+                if (isset($_SESSION["is_logged_in"]) && $_SESSION["is_logged_in"] === true) {
                 ?>
                     <a class="collapse-item" href="<?= base_url("Maps/verifikasijalan/") . $_SESSION['token']; ?>">Full Maps Edit Verifikasi</a>
                 <?php } ?>
@@ -51,7 +51,7 @@
 
     <!-- Nav Item -->
     <?php
-    if (isset($_SESSION["isLoggedIn"]) && $_SESSION["isLoggedIn"] === true) {
+    if (isset($_SESSION["is_logged_in"]) && $_SESSION["is_logged_in"] === true) {
     ?>
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url("Auth/progress_logout"); ?>">
