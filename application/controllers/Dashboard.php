@@ -65,10 +65,8 @@ class Dashboard extends CI_Controller
 	/**
 	 * Ini adalah method untuk demo
 	 */
-
 	public function chart()
 	{
-
 		$this->load->view('multichart');
 	}
 }
