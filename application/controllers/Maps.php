@@ -110,14 +110,20 @@ class Maps extends CI_Controller
         $this->load->view('TemplateMap/wrapper', $data);
     }
 
-    public function verifikasijalan($token = "", $dataJalan = "")
+    public function verifikasijalan($token = "", $dataJalan = "true")
     {
+        $jenistampildata = $dataJalan;
+
         $isTokenValid = $this->UsersModel->cekToken($token);
         if ($isTokenValid) {
-            if ($dataJalan == "true") {
-                $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
-            } else {
+            if ($jenistampildata == "true" || $jenistampildata = "") {
+                //jalan rusak yang akan diverifikasi
+
                 $dataJalanRusakDariDB = $this->LocationModel->getDataForVerification();
+            } else {
+
+                // jalan rusak yang sudah diverifikasi dan akan diedit untuk perbaikan
+                $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
             }
 
 
@@ -131,9 +137,9 @@ class Maps extends CI_Controller
                 'title' => 'Edit Verifikasi',
                 'content' => 'vMapsMobileEditVerifikasi',
                 'data_jalan_rusak' => $dataJalanRusak,
-                'token' => $token
+                'token' => $token,
+                'jenistampildata' => $jenistampildata
             ];
-
             $this->load->view('TemplateMap/wrapper', $data);
         } else {
             redirect("Auth");
@@ -241,7 +247,7 @@ class Maps extends CI_Controller
             }
 
 
-            redirect('Maps/verifikasijalan/' . $token);
+            redirect('Maps/verifikasijalan/' . $token . "/true");
         } else {
             redirect("Auth");
         }
