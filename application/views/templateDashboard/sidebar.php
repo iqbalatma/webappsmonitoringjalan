@@ -54,7 +54,7 @@
     if (isset($_SESSION["isLoggedIn"]) && $_SESSION["isLoggedIn"] === true) {
     ?>
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url("Auth/logout"); ?>">
+            <a class="nav-link" href="<?= base_url("Auth/progress_logout"); ?>">
                 <i class="fas fa-sign-out-alt"></i>
                 <span>Logout</span>
             </a>

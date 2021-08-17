@@ -57,7 +57,7 @@
                                     </div>
 
 
-                                    <form class="user" method="POST" action="<?= base_url(); ?>Auth/login">
+                                    <form class="user" method="POST" action="<?= base_url(); ?>Auth/progress_login">
                                         <div class="form-group">
                                             <input type="input" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Username" required>
                                         </div>
