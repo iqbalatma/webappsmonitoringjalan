@@ -26,12 +26,16 @@ class Auth extends CI_Controller
     }
     public function index()
     {
-        $data = [
-            'title' => 'Login',
-            'content' => 'vLogin',
-        ];
+        if (isset($_SESSION["isLoggedIn"]) && isset($_SESSION["isLoggedIn"]) == true) {
+            redirect("Dashboard");
+        } else {
+            $data = [
+                'title' => 'Login',
+                'content' => 'vLogin',
+            ];
 
-        $this->load->view('vLogin', $data);
+            $this->load->view('vLogin', $data);
+        }
     }
 
     public function login()
@@ -64,7 +68,6 @@ class Auth extends CI_Controller
             $isLoggedIn = false;
         }
         if ($isLoggedIn === false) {
-            echo "Uername atau password salah";
             $this->session->set_flashdata('msg', "<div class='alert alert-danger' role='alert'>Username atau password salah !</div>");
             redirect("Auth");
         }
