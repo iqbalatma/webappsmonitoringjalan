@@ -238,16 +238,19 @@ class Maps extends CI_Controller
                         $query_condition = $query_condition . "id = $id_location[$i] OR ";
                     }
                 }
-                $this->db->query("UPDATE location SET update_by = $id_user,status = '$status', verifikasi = 1, img_path = '$upload_path' WHERE $query_condition");
+                $query = $this->db->query("UPDATE location SET update_by = $id_user,status = '$status', verifikasi = 1, img_path = '$upload_path', date = '$this->currentDateTime' WHERE $query_condition");
                 $metadata = array('image_metadata' => $this->upload->data());
                 $messageFlash = "Berhasil memperbaharui status dan verifikasi jalan";
-
-
-                $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
             }
 
 
-            redirect('Maps/verifikasijalan/' . $token . "/true");
+            if ($query) {
+                $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
+                redirect('Maps/verifikasijalan/' . $token . "/true");
+            }else{
+              $this->session->set_flashdata('msg', "<div class='alert alert-danger fixed-top' role='alert'>Status dan verifikasi jalan gagal diperbaharui</div>");
+            }
+
         } else {
             redirect("Auth");
         }
