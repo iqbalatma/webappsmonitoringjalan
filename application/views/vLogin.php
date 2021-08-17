@@ -34,7 +34,6 @@
 </head>
 
 <body class="bg-gradient-primary">
-
     <div class="container">
 
         <!-- Outer Row -->
@@ -52,15 +51,18 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Selamat Datang</h1>
                                         <h3 class="h4 text-gray-900 mb-4">Monitoring Jalan <b>Rusak</b> dan <b>Menanjak</b></h3>
+                                        <?php if (isset($_SESSION["msg"])) {
+                                            echo $_SESSION["msg"];
+                                        }; ?>
                                     </div>
 
 
                                     <form class="user" method="POST" action="<?= base_url(); ?>Auth/login">
                                         <div class="form-group">
-                                            <input type="input" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Username">
+                                            <input type="input" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Username" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login Admin</button>
                                         <a href="<?= base_url("Dashboard"); ?>" class="btn btn-primary btn-user btn-block">Dashboard</a>
@@ -90,6 +92,11 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url(); ?>assets/js/sb-admin-2.min.js"></script>
+
+    <script>
+        var timeout = 3000; // in miliseconds (3*1000)
+        $('.alert').delay(timeout).fadeOut(300);
+    </script>
 
 </body>
 
