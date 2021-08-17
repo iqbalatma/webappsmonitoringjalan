@@ -2,11 +2,12 @@
 <!-- BODY HTML -->
 
 <body id="page-top">
+
     <div class="container-sm">
         <select class="custom-select custom-select-sm fixed-top" name="selectoption" id="selectoption">
-            <option selected>Pilih tampil data</option>
-            <option value="true">Jalan Rusak Terverifikasi</option>
-            <option value="false">Jalan Rusak Belum Terverifikasi</option>
+            <option selected disabled>Pilih Jenis Tampil Data</option>
+            <option value="true">Jalan Rusak Belum Terverifikasi</option>
+            <option value="false">Jalan Rusak Terverifikasi</option>
         </select>
     </div>
 
@@ -17,6 +18,8 @@
         echo $this->session->flashdata('msgUphill');
     }; ?>
     <div id="map"></div>
+
+
 
     <!-- Modal untuk mengubah status jalan -->
     <div class="modal" tabindex="-1" id="myModal">
@@ -36,9 +39,18 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Verifikasi Status Jalan</label>
                             <select class="form-control" id="status" name="status">
-                                <option>Rusak</option>
-                                <option>Tidak Rusak</option>
-                                <option>Diperbaiki</option>
+                                <?php if ($jenistampildata == false) {
+                                ?>
+                                    <option>Diperbaiki</option>
+                                <?php
+                                } else {
+                                ?>
+
+                                    <option>Diperbaiki</option>
+                                    <option>Rusak</option>
+                                    <option>Tidak Rusak</option>
+                                <?php
+                                }; ?>
                             </select>
                         </div>
                         <div class="form-group">
