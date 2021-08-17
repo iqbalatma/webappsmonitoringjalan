@@ -241,11 +241,6 @@ class Maps extends CI_Controller
             }
 
 
-
-
-
-
-
             redirect('Maps/verifikasijalan/' . $token);
         } else {
             redirect("Auth");
