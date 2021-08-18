@@ -6,14 +6,14 @@ class MarkerclusterClass {
             spiderfyOnMaxZoom: false
         });
 
-        this.set_cluster_click(edit);
+        this.set_cluster_click(jenis);
 
-        this.set_cluster_data(edit);
+        this.set_cluster_data(jenis);
 
         this.add_layer();
     }
 
-    set_cluster_click(edit = false){
+    set_cluster_click(jenis = false){
         return this.markers.on('clusterclick', function(a) {
             var locationIdMarkers = new Array();
     
