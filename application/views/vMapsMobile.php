@@ -133,7 +133,7 @@
     }
 
     // ada perbedaan antara marker dan markers, markers pada markercluster 
-    map.addLayer(markers);
+    object_leaflet.map.addLayer(markers);
 </script>
 
 
@@ -145,46 +145,7 @@
 <!-- UPHILL ROAD -->
 <script>
     var dataJalanMenanjak = <?= json_encode($data_jalan_menanjak); ?>;
-    var object_uphill = new UphillClass(dataJalanMenanjak);
-
-    for (let i = 0; i < dataJalanMenanjak.length; i++) {
-        var polylinePoints = [
-            [dataJalanMenanjak[i][1], dataJalanMenanjak[i][2]],
-            [dataJalanMenanjak[i][3], dataJalanMenanjak[i][4]],
-        ];
-
-
-        // var uphillRoadControl = L.Routing.control({
-        //     fitSelectedRoutes: false,
-        //     waypoints: polylinePoints,
-        //     routeWhileDragging: true,
-        //     lineOptions: {
-        //         styles: [{
-        //             color: 'orange',
-        //             opacity: 10,
-        //             weight: 5
-        //         }]
-        //     },
-        //     createMarker: function(i, wp, nWps) {
-        //         if (i === 0) {
-        //             return L.marker(wp.latLng, {
-        //                 icon: object_leaflet.jalan_tertinggi
-        //             });
-        //         } else {
-        //             return L.marker(wp.latLng, {
-        //                 icon: object_leaflet.jalan_terendah
-        //             });
-        //         }
-        //     }
-        // });
-        object_uphill.uphill_road_control.addTo(map);
-        // uphillRoadControl.addTo(map);
-        // object_uphill.uphill_road_control.hide();
-    }
-
-    object_uphill.uphill_road_control.on('routesfound', function(e) {
-        console.log("Rute Jalan Menanjak Ditemukan")
-    })
+    new UphillClass(dataJalanMenanjak);
 </script>
 
 

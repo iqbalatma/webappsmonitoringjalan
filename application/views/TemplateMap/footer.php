@@ -21,8 +21,8 @@
 <script type="text/javascript">
     const main_url = "<?= base_url(); ?>";
     var object_leaflet = new LeafletClass(main_url);
-    const map = object_leaflet.map;
-    object_leaflet.inisiasi_map();
+    // const map = object_leaflet.map;
+
 
     // global variabel
     var id, target, featureGroup, options, markerUser, circle, latdevice, longdevice, latcurrentdevice, longcurrentdevice, accuracy;
