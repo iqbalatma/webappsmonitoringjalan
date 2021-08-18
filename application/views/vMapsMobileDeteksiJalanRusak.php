@@ -307,6 +307,7 @@
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
     var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;
+    var object_markercluster = new MarkerCluster(addressPoints);
 </script>
 <script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script>
 <!-- TUTUP MARKER CLUSTER -->
