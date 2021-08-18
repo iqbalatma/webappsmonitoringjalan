@@ -165,7 +165,6 @@
             .setContent(container)
             .setLatLng(e.latlng)
             .openOn(object_leaflet.map);
-
     });
 
 
@@ -187,7 +186,8 @@
 
     controlRouting.on('routingerror', function(e) {
         console.log(e);
-    })
+    });
+
     var demo = [];
     controlRouting.on('routesfound', function(e) {
 
@@ -251,7 +251,7 @@
 
 
             titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
-            object_leaflet.map.removeLayer(markers);
+            object_leaflet.map.removeLayer(object_markercluster.markers);
 
 
 
