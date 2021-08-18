@@ -15,6 +15,7 @@
 <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 <!-- VARIABEL GLOBAL -->
 <script src="<?= base_url(); ?>/assets/js/LeafletClass.js"></script>
+<script src="<?= base_url(); ?>/assets/js/MarkerclusterClass.js"></script>
 <script src="<?= base_url(); ?>/assets/js/UphillClass.js"></script>
 
 <!-- INISIASI LEAFLET-->

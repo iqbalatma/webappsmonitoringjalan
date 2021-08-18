@@ -12,7 +12,6 @@
         </select>
     </div>
     <div id="map"></div>
-
     <!-- Modal untuk mengubah status jalan -->
     <div class="modal" tabindex="-1" id="myModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -44,7 +43,6 @@
             </div>
         </div>
     </div>
-
 </body>
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -55,13 +53,6 @@
 <!-- FOOTER UNTUK LOAD JAVASCRIPT -->
 <?php require('TemplateMap/footer.php'); ?>
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
-
-
-
-
-
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
-<!-- CORE TEMPAT OPERASI DAN METHOD -->
 
 
 <!-- GENERAL FUNCTION -->
@@ -77,69 +68,9 @@
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
     // memanggil data jalan rusak dari database
-    var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;
-    //markers untuk marker cluster
-    var markers = L.markerClusterGroup({
-        spiderfyOnMaxZoom: false
-    });
-    var markers2 = L.markerClusterGroup({
-        spiderfyOnMaxZoom: false
-    });
-
-    //ini adalah on click ketika marker cluster di klik
-    markers.on('clusterclick', function(a) {
-        // a.layer is actually a cluster
-        var locationIdMarkers = new Array();
-
-        if (map.getZoom() == 16) {
-            for (var i = 0; i < a.layer._markers.length; i++) {
-                locationIdMarkers.push(a.layer._markers[i].options.locationid);
-            }
-
-            // //untuk membuka popup
-            $('#myModal').modal('show');
-            document.getElementById('status').value = a.sourceTarget._markers[0].options.status;
-            document.getElementById('verifikasi').value = a.sourceTarget._markers[0].options.verifikasi;
-            document.getElementById('img').src = object_leaflet.main_url + a.sourceTarget._markers[0].options.img_path;
-        }
-    });
-
-    // ini adalah marker cluster, datanya dari addres point
-    for (var i = 0; i < addressPoints.length; i++) {
-        var a = addressPoints[i];
-        var locationid = a[0];
-        var status = a[3];
-        var img_path = a[4];
-        var verifikasi = a[5];
-        if (verifikasi == 1) {
-            verifikasi = "Terverifikasi"
-        } else {
-            verifikasi = "Belum Terverifikasi"
-        }
-        var marker = L.marker(new L.LatLng(a[1], a[2]), {
-            locationid: locationid,
-            status: status,
-            img_path: img_path,
-            verifikasi: verifikasi
-        });
-
-        marker.on("click", function(a) {
-            $('#myModal').modal('show');
-            document.getElementById('status').value = status;
-            document.getElementById('verifikasi').value = verifikasi;
-            document.getElementById('img').src = main_url + img_path;
-        })
-        markers.addLayer(marker);
-    }
-
-    // ada perbedaan antara marker dan markers, markers pada markercluster 
-    object_leaflet.map.addLayer(markers);
+    var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
+    new MarkerclusterClass(addressPoints);
 </script>
-
-
-
-
-
 
 
 <!-- UPHILL ROAD -->
