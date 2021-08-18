@@ -32,139 +32,13 @@
 
 <!-- LIVE DEVICE LOCATION -->
 <script type="text/javascript">
-    var jarakTerpendek = false;
-    target = {
-        latitude: 0,
-        longitude: 0
-    };
-    options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
-
-
-    if (!navigator.geolocation.getCurrentPosition) {
-        console.log("Browser tidak support");
-    } else {
-        setInterval(() => {
-            navigator.geolocation.watchPosition(getPosition, object_leaflet.geoerror, options);
-        }, 1000);
-    }
-
-
-
     $("#alert-jarak").hide();
-
-    function getPosition(position) {
-        latdevice = position.coords.latitude
-        longdevice = position.coords.longitude
-        accuracy = position.coords.accuracy
-        if (markerUser) {
-            object_leaflet.map.removeLayer(markerUser)
-        }
-        if (circle) {
-            object_leaflet.map.removeLayer(circle)
-        }
-        $("#alert-jarak").hide();
-
-        markerUser = L.marker([latdevice, longdevice], {
-            icon: object_leaflet.user_device_location
-        });
-        circle = L.circle([latdevice, longdevice], {
-            radius: 20
-        });
-
-        featureGroup = L.featureGroup([markerUser, circle]).addTo(object_leaflet.map);
-
-        // console.log("ho")
-        if (titikJalanRusakFinal.length == 0) {
-            // ketika user belum menentukan titik rute maka titik jalan rusak yang dilalui akan kosong
-            console.log("Titik jalan rusak tidak ada")
-        } else {
-            // Ketika rute ditemukan dan terdapat jalan rusak pada rute tersebut
-            //cari dulu jarak terpendek dari titik user baru tampilkan alert
-            var index;
-            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
-                jarak = distance(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1], latdevice, longdevice, "M");
-                if (jarakTerpendek == false) { //berarti jarak terpendek belum di set
-                    jarakTerpendek = jarak
-                    index = i;
-                } else { //kalau jarak terpendek sudah diset, maka selanjutnya adalah membandingkan jarak di variabel dengan di looping
-                    if (jarakTerpendek > jarak) { //jika jarak terpendek lebih besar dari jarak, berarti jarak terbaru tersebut merupakan jarak lebih pendek, simpan ke variabel
-                        jarakTerpendek = jarak
-                        index = i;
-                        // console.log(titikJalanRusakFinal[i])
-                    }
-                }
-            }
-
-
-            console.log(jarakTerpendek);
-
-
-            if (jarakTerpendek < 100) {
-                $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
-                $("#alert-jarak").show();
-                if (jarakTerpendek < 5) {
-                    console.log("pemotongan tereksekusi");
-                    titikJalanRusakFinal.splice(index, 1)
-                }
-            }
-            jarakTerpendek = false;
-
-
-        }
-    }
+    var object_devicelocation = new DevicelocationClass();
 </script>
 
 
 <!-- ROUTING MACHINE -->
 <script>
-    controlRouting = L.Routing.control({
-        // fitSelectedRoutes: false,
-        useZoomParameter: false,
-        waypoints: [
-            // L.latLng(lat, long),
-        ],
-        lineOptions: {
-            styles: [{
-                color: 'blue',
-                opacity: 1,
-                weight: 3
-            }]
-        },
-        // autoRoute: true
-    }).addTo(object_leaflet.map);
-
-    object_leaflet.map.on('click', function(e) {
-
-        var container = L.DomUtil.create('div');
-
-        var startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container);
-        var destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
-
-
-        L.DomEvent.on(destBtn, 'click', function() {
-            controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
-            controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
-            object_leaflet.map.closePopup();
-            console.log(controlRouting.getWaypoints());
-        });
-
-        L.DomEvent.on(startBtn, 'click', function() {
-            controlRouting.spliceWaypoints(0, 1, e.latlng);
-            object_leaflet.map.closePopup();
-        });
-
-        L.popup()
-            .setContent(container)
-            .setLatLng(e.latlng)
-            .openOn(object_leaflet.map);
-
-    });
-
-
     // mengambil data jalan rusak dari database dengan ajax
     var koordinatejalanrusak;
     var ajax = new XMLHttpRequest();
@@ -181,122 +55,36 @@
 
 
 
-    controlRouting.on('routingerror', function(e) {
-        console.log(e);
-    })
+
     var demo = [];
-    controlRouting.on('routesfound', function(e) {
 
-        var jalanRusakYangDilalui = [];
-        koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
-        coordinateFromRoute = e.routes[0].coordinates; //dari rute
+    var object_routingmachine = new RoutingmachineClass();
 
 
+    object_leaflet.map.on('click', function(e) {
+
+        var container = L.DomUtil.create('div');
+
+        var startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container);
+        var destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
 
 
-        var lat1, lat2, long1, long2;
-        // perulangan untuk mengecek data jalan rusak apda database, berarti perulangan paling luar adalah data pada database
-        for (let i = 0; i < koordinatejalanrusak.length; i++) {
-            // menyimpan data latitude dan longitude jalan rusak kedalam variabel
-            lat1 = koordinatejalanrusak[i]["latitude"];
-            long1 = koordinatejalanrusak[i]["longitude"];
-            // perulangan terdalam adalah data rute jalan, data cukup banyak hingga ratusan
-            for (let j = 0; j < coordinateFromRoute.length; j++) {
-                // menyimpan data latitude dan longitude rute kedalam variabel
-                lat2 = coordinateFromRoute[j]["lat"];
-                long2 = coordinateFromRoute[j]["lng"];
-                // menghitung jarak antar kedua titik
-                jarak = distance(lat1, long1, lat2, long2, "M");
-                // mengecek apakah jaraknya kurang dari 5 meter antara rute dan titik jalan rusak, jika ya kemungkinan rute melalui jalan rusak tersebut
-                if (jarak < 50) {
-                    // console.log("haha jaraknya " + jarak)
-                    jalanRusakYangDilalui.push([lat1, long1])
-                }
-            }
-        }
+        L.DomEvent.on(destBtn, 'click', function() {
+            object_routingmachine.control_routing.spliceWaypoints(object_routingmachine.control_routing.getWaypoints().length - 1, 1, e.latlng);
+            object_routingmachine.control_routing.spliceWaypoints(0, 1, [object_devicelocation.latdevice, object_devicelocation.longdevice]);
+            object_leaflet.map.closePopup();
+            console.log(object_routingmachine.control_routing.getWaypoints());
+        });
 
+        L.DomEvent.on(startBtn, 'click', function() {
+            object_routingmachine.control_routing.spliceWaypoints(0, 1, e.latlng);
+            object_leaflet.map.closePopup();
+        });
 
-
-        if (jalanRusakYangDilalui.length > 0) {
-            // data jalan rusak yang dilalui sudah didapat tapi masih terdapat data duplicate dan akan difilter dengan kode dibawah
-            var jalanRusakYangDilaluiFilteredFirstStep = jalanRusakYangDilalui.filter((t = {}, a => !(t[a] = a in t)));
-            //buat variabel untuk data sudah diperiksa jaraknya, jadi kita akan menghapus data titik jalan rusak yang berdekatan
-            var jalanRusakYangDilaluiFilteredSecondStep = [];
-            //lakukan perulangan pada semua data titik jalan rusak yang telah difilter
-            for (let i = 0; i < jalanRusakYangDilaluiFilteredFirstStep.length; i++) {
-                // kalau array data yang jaraknya diperiksa ternyata masih kosong, lakukan push tanpa pengecekan
-                if (jalanRusakYangDilaluiFilteredSecondStep.length == 0) { //kalau arraynya masih kosong, masukkan saja
-                    jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
-                } else { //kalau arraynya tidak kosong, lakukan pengecekan jarak yang akan masuk (perulangan terluar) dan yang ada didalam array (perulangan terdalam)
-                    // kalau array tidak kosong, maka data yang sedang dijalankan pada array filtered akan di cocokkan dengan data titik pada array yang jaraknya diperiksa, dengan melakukan perulangan pada array yang jaraknya diperiksa
-                    for (let j = 0; j < jalanRusakYangDilaluiFilteredSecondStep.length; j++) {
-                        lat1 = jalanRusakYangDilaluiFilteredFirstStep[i][0]; //lat
-                        long1 = jalanRusakYangDilaluiFilteredFirstStep[i][1]; //long
-                        lat2 = jalanRusakYangDilaluiFilteredSecondStep[j][0]; //lat
-                        long2 = jalanRusakYangDilaluiFilteredSecondStep[j][1]; //long
-                        jarak = distance(lat1, long1, lat2, long2, "M");
-                        // apabila jaraknya lebih dari 100 meter maka titik tersebut akan dianggap sebagai titik lainnya dan akan dipisahkan untuk memberikan notif
-                        if (jarak > 100) {
-                            jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
-                            break
-                        }
-                    }
-                }
-
-            }
-
-
-            titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
-            object_leaflet.map.removeLayer(markers);
-
-
-
-
-            // UNTUK MENAMBAHKAN TITIK JALAN RUSAK JADI RUTE MERAH
-
-            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
-                demo[i] = L.Routing.control({
-                    fitSelectedRoutes: false,
-                    useZoomParameter: false,
-                    waypoints: [
-                        L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
-                        L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
-                    ],
-                    lineOptions: {
-                        styles: [{
-                            color: 'red',
-                            opacity: 10,
-                            weight: 10
-                        }]
-                    },
-                    createMarker: function() {
-                        return null;
-                    }
-                })
-                demo[i].addTo(object_leaflet.map);
-                demo[i].hide();
-            }
-
-
-
-
-
-
-
-        } else {
-            //untuk menghapus rute merah dan memasukkan marker
-
-            object_leaflet.map.addLayer(markers);
-            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
-                demo[i].setWaypoints([
-
-                ]);
-            }
-
-
-        }
-
-
+        L.popup()
+            .setContent(container)
+            .setLatLng(e.latlng)
+            .openOn(object_leaflet.map);
 
     });
 </script>
