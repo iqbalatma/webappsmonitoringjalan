@@ -34,10 +34,6 @@
 
 <!-- LIVE DEVICE LOCATION -->
 <script type="text/javascript">
-<<<<<<< HEAD
-    $("#alert-jarak").hide();
-    var object_devicelocation = new DevicelocationClass();
-=======
     var jarakTerpendek = false;
     target = {
         latitude: 0,
@@ -58,21 +54,8 @@
         }, 1000);
     }
 
->>>>>>> parent of 16469ab (progress deteksi jalan)
 
 
-    function get_position(position) {
-        object_devicelocation.latdevice = position.coords.longitude;
-        object_devicelocation.longdevice = position.coords.longitude;
-        object_devicelocation.accuracy = position.coords.accuracy;
-
-<<<<<<< HEAD
-        if (object_devicelocation.markerUser) {
-            object_leaflet.map.removeLayer(object_devicelocation.marker_user)
-        }
-        if (object_devicelocation.circle) {
-            object_leaflet.map.removeLayer(object_devicelocation.circle)
-=======
     function getPosition(position) {
         latdevice = position.coords.latitude
         longdevice = position.coords.longitude
@@ -82,28 +65,18 @@
         }
         if (circle) {
             map.removeLayer(circle)
->>>>>>> parent of 16469ab (progress deteksi jalan)
         }
 
         $("#alert-jarak").hide();
 
-<<<<<<< HEAD
-        object_devicelocation.marker_user = L.marker([object_devicelocation.latdevice, object_devicelocation.longdevice], {
-            icon: object_leaflet.user_device_location
-=======
         markerUser = L.marker([latdevice, longdevice], {
             icon: userDeviceLocationIcon
->>>>>>> parent of 16469ab (progress deteksi jalan)
         });
         object_devicelocation.circle = L.circle([object_devicelocation.latdevice, object_devicelocation.longdevice], {
             radius: 20
         });
 
-<<<<<<< HEAD
-        object_devicelocation.feature_group = L.featureGroup([object_devicelocation.marker_user, object_devicelocation.circle]).addTo(object_leaflet.map);
-=======
         featureGroup = L.featureGroup([markerUser, circle]).addTo(map);
->>>>>>> parent of 16469ab (progress deteksi jalan)
 
         // console.log("ho")
         if (titikJalanRusakFinal.length == 0) {
@@ -147,8 +120,6 @@
 
 <!-- ROUTING MACHINE -->
 <script>
-<<<<<<< HEAD
-=======
     controlRouting = L.Routing.control({
         // fitSelectedRoutes: false,
         useZoomParameter: false,
@@ -192,7 +163,6 @@
     });
 
 
->>>>>>> parent of 16469ab (progress deteksi jalan)
     // mengambil data jalan rusak dari database dengan ajax
     var koordinatejalanrusak;
     var ajax = new XMLHttpRequest();
@@ -236,41 +206,34 @@
 
 
 
-<<<<<<< HEAD
-=======
-            titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
-            map.removeLayer(markers);
->>>>>>> parent of 16469ab (progress deteksi jalan)
+    titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
+    map.removeLayer(markers);
 
 
 
 
-
-<<<<<<< HEAD
-=======
-            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
-                demo[i] = L.Routing.control({
-                    fitSelectedRoutes: false,
-                    useZoomParameter: false,
-                    waypoints: [
-                        L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
-                        L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
-                    ],
-                    lineOptions: {
-                        styles: [{
-                            color: 'red',
-                            opacity: 10,
-                            weight: 10
-                        }]
-                    },
-                    createMarker: function() {
-                        return null;
-                    }
-                })
-                demo[i].addTo(map);
-                demo[i].hide();
+    for (let i = 0; i < titikJalanRusakFinal.length; i++) {
+        demo[i] = L.Routing.control({
+            fitSelectedRoutes: false,
+            useZoomParameter: false,
+            waypoints: [
+                L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
+                L.latLng(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1]),
+            ],
+            lineOptions: {
+                styles: [{
+                    color: 'red',
+                    opacity: 10,
+                    weight: 10
+                }]
+            },
+            createMarker: function() {
+                return null;
             }
->>>>>>> parent of 16469ab (progress deteksi jalan)
+        })
+        demo[i].addTo(map);
+        demo[i].hide();
+    }
 
 
 
@@ -279,38 +242,36 @@
 
 
 
-<<<<<<< HEAD
     object_leaflet.map.on('click', function(e) {
-=======
-            map.addLayer(markers);
-            for (let i = 0; i < titikJalanRusakFinal.length; i++) {
-                demo[i].setWaypoints([
->>>>>>> parent of 16469ab (progress deteksi jalan)
 
-        var container = L.DomUtil.create('div');
+                map.addLayer(markers);
+                for (let i = 0; i < titikJalanRusakFinal.length; i++) {
+                    demo[i].setWaypoints([]);
 
-        var startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container);
-        var destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
+                    var container = L.DomUtil.create('div');
+
+                    var startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container);
+                    var destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
 
 
-        L.DomEvent.on(destBtn, 'click', function() {
-            object_routingmachine.control_routing.spliceWaypoints(object_routingmachine.control_routing.getWaypoints().length - 1, 1, e.latlng);
-            object_routingmachine.control_routing.spliceWaypoints(0, 1, [object_devicelocation.latdevice, object_devicelocation.longdevice]);
-            object_leaflet.map.closePopup();
-            console.log(object_routingmachine.control_routing.getWaypoints());
-        });
+                    L.DomEvent.on(destBtn, 'click', function() {
+                        object_routingmachine.control_routing.spliceWaypoints(object_routingmachine.control_routing.getWaypoints().length - 1, 1, e.latlng);
+                        object_routingmachine.control_routing.spliceWaypoints(0, 1, [object_devicelocation.latdevice, object_devicelocation.longdevice]);
+                        object_leaflet.map.closePopup();
+                        console.log(object_routingmachine.control_routing.getWaypoints());
+                    });
 
-        L.DomEvent.on(startBtn, 'click', function() {
-            object_routingmachine.control_routing.spliceWaypoints(0, 1, e.latlng);
-            object_leaflet.map.closePopup();
-        });
+                    L.DomEvent.on(startBtn, 'click', function() {
+                        object_routingmachine.control_routing.spliceWaypoints(0, 1, e.latlng);
+                        object_leaflet.map.closePopup();
+                    });
 
-        L.popup()
-            .setContent(container)
-            .setLatLng(e.latlng)
-            .openOn(object_leaflet.map);
+                    L.popup()
+                        .setContent(container)
+                        .setLatLng(e.latlng)
+                        .openOn(object_leaflet.map);
 
-    });
+                });
 </script>
 
 
