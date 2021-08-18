@@ -199,9 +199,12 @@
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
 <<<<<<< HEAD
+<<<<<<< HEAD
     var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
     new MarkerclusterClass(addressPoints, "edit");
 =======
+=======
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
     //NOTE :  ADA PERBEDAAN antara marker dan markers, markers pada markercluster 
 
     // address point didapat dari db
@@ -242,6 +245,9 @@
         markers.addLayer(marker);
     }
     object_leaflet.map.addLayer(markers);
+<<<<<<< HEAD
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 </script>
 <!-- TUTUP MARKER CLUSTER -->

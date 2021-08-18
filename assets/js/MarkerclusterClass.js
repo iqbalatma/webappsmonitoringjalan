@@ -1,6 +1,10 @@
 class MarkerclusterClass {
 <<<<<<< HEAD
+<<<<<<< HEAD
     constructor(titik_koordinat, jenis = ""){
+=======
+    constructor(titik_koordinat){
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 =======
     constructor(titik_koordinat){
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
@@ -40,6 +44,14 @@ class MarkerclusterClass {
             spiderfyOnMaxZoom: false
         });
 
+<<<<<<< HEAD
+        this.set_cluster_click();
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
+        this.markers2 = L.markerClusterGroup({
+            spiderfyOnMaxZoom: false
+        });
+
         this.set_cluster_click();
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 
@@ -49,7 +61,11 @@ class MarkerclusterClass {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     set_cluster_click(jenis){
+=======
+    set_cluster_click(){
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 =======
     set_cluster_click(){
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
@@ -61,6 +77,7 @@ class MarkerclusterClass {
                     locationIdMarkers.push(a.layer._markers[i].options.locationid);
                 }
                 // //untuk membuka popup menampilkan data
+<<<<<<< HEAD
 <<<<<<< HEAD
                 if(jenis == "edit"){
                     $('#myModal').modal('show');
@@ -74,17 +91,26 @@ class MarkerclusterClass {
                     document.getElementById('img').src = object_leaflet.main_url + a.sourceTarget._markers[0].options.img_path;
                 }
 =======
+=======
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
                 $('#myModal').modal('show');
                 document.getElementById('status').value = a.sourceTarget._markers[0].options.status;
                 document.getElementById('verifikasi').value = a.sourceTarget._markers[0].options.verifikasi;
                 document.getElementById('img').src = object_leaflet.main_url + a.sourceTarget._markers[0].options.img_path;
+<<<<<<< HEAD
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
             }
         });
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     set_cluster_data(jenis){
+=======
+    set_cluster_data(){
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 =======
     set_cluster_data(){
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
@@ -105,6 +131,7 @@ class MarkerclusterClass {
                 img_path: img_path,
                 verifikasi: verifikasi
             });
+<<<<<<< HEAD
 <<<<<<< HEAD
 
             if(jenis == "deteksi"){
@@ -131,6 +158,8 @@ class MarkerclusterClass {
 
 
 =======
+=======
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
     
             marker.on("click", function(a) {
                 $('#myModal').modal('show');
@@ -141,6 +170,9 @@ class MarkerclusterClass {
             this.markers.addLayer(marker);
         }
     }
+<<<<<<< HEAD
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 
     add_layer(){
