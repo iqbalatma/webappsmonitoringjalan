@@ -22,12 +22,10 @@
 <!-- -------------------------------------------------------------------------------------------------------------------------- -->
 <!-- CORE TEMPAT OPERASI DAN METHOD -->
 <script type="text/javascript">
-    // membuat button untuk recenter
-    // inisiasi variabel global
     var titikJalanRusakFinal = [];
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 </script>
 
 
@@ -50,7 +48,7 @@
         console.log("Browser tidak support");
     } else {
         setInterval(() => {
-            navigator.geolocation.watchPosition(getPosition, geoerror, options);
+            navigator.geolocation.watchPosition(getPosition, object_leaflet.geoerror, options);
         }, 1000);
     }
 
@@ -63,21 +61,21 @@
         longdevice = position.coords.longitude
         accuracy = position.coords.accuracy
         if (markerUser) {
-            map.removeLayer(markerUser)
+            object_leaflet.map.removeLayer(markerUser)
         }
         if (circle) {
-            map.removeLayer(circle)
+            object_leaflet.map.removeLayer(circle)
         }
         $("#alert-jarak").hide();
 
         markerUser = L.marker([latdevice, longdevice], {
-            icon: userDeviceLocationIcon
+            icon: object_leaflet.user_device_location
         });
         circle = L.circle([latdevice, longdevice], {
             radius: 20
         });
 
-        featureGroup = L.featureGroup([markerUser, circle]).addTo(map);
+        featureGroup = L.featureGroup([markerUser, circle]).addTo(object_leaflet.map);
 
         // console.log("ho")
         if (titikJalanRusakFinal.length == 0) {
@@ -137,31 +135,32 @@
             }]
         },
         // autoRoute: true
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 
-    map.on('click', function(e) {
+    object_leaflet.map.on('click', function(e) {
 
-        var container = L.DomUtil.create('div'),
-            startBtn = createButton('Mulai dari lokasi ini', container),
-            destBtn = createButton('Menuju lokasi ini', container);
+        var container = L.DomUtil.create('div');
+
+        var startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container);
+        var destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
 
 
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
-            map.closePopup();
+            object_leaflet.map.closePopup();
             console.log(controlRouting.getWaypoints());
         });
 
         L.DomEvent.on(startBtn, 'click', function() {
             controlRouting.spliceWaypoints(0, 1, e.latlng);
-            map.closePopup();
+            object_leaflet.map.closePopup();
         });
 
         L.popup()
             .setContent(container)
             .setLatLng(e.latlng)
-            .openOn(map);
+            .openOn(object_leaflet.map);
 
     });
 
@@ -248,7 +247,7 @@
 
 
             titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
-            map.removeLayer(markers);
+            object_leaflet.map.removeLayer(markers);
 
 
 
@@ -274,7 +273,7 @@
                         return null;
                     }
                 })
-                demo[i].addTo(map);
+                demo[i].addTo(object_leaflet.map);
                 demo[i].hide();
             }
 
@@ -287,7 +286,7 @@
         } else {
             //untuk menghapus rute merah dan memasukkan marker
 
-            map.addLayer(markers);
+            object_leaflet.map.addLayer(markers);
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
                 demo[i].setWaypoints([
 
@@ -306,10 +305,12 @@
 
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
-    var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;
+    var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
+    var object_markercluster = new MarkerclusterClass(addressPoints, "deteksi");
 </script>
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script>
-<!-- TUTUP MARKER CLUSTER -->
+
+
+
 
 
 

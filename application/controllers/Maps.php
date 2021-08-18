@@ -99,7 +99,7 @@ class Maps extends CI_Controller
         $dataJalanRusak = array();
         $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
         foreach ($dataJalanRusakDariDB as $row) :
-            array_push($dataJalanRusak, [$row->latitude, $row->longitude, $row->status]);
+            array_push($dataJalanRusak, [$row->id, $row->latitude, $row->longitude, $row->status]);
         endforeach;
 
         $data = [
