@@ -1,3 +1,6 @@
+<!-- -------------------------------------------------------------------------------------------------------------------------- -->
+<!-- BODY HTML -->
+
 <body id="page-top">
 
     <div class="container-sm">
@@ -130,10 +133,12 @@
         </div>
     </div>
 </body>
+<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
+<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 <!-- FOOTER UNTUK LOAD JAVASCRIPT -->
 <?php require("TemplateMap/footer.php"); ?>
-
+<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 <!-- VARIABEL GLOBAL -->
 <script>
     var token = "<?= $token; ?>";
@@ -193,8 +198,51 @@
 
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
+<<<<<<< HEAD
     var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
     new MarkerclusterClass(addressPoints, "edit");
+=======
+    //NOTE :  ADA PERBEDAAN antara marker dan markers, markers pada markercluster 
+
+    // address point didapat dari db
+    var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;;
+    // markers untuk cluster
+    var markers = L.markerClusterGroup({
+        spiderfyOnMaxZoom: false
+    });
+
+    //ini adalah on click ketika marker cluster di klik
+    markers.on('clusterclick', function(a) {
+        var locationIdMarkers = new Array();
+        if (object_leaflet.map.getZoom() == object_leaflet.max_zoom) {
+            for (var i = 0; i < a.layer._markers.length; i++) {
+                locationIdMarkers.push(a.layer._markers[i].options.locationid);
+            }
+            $('#myModal').modal('show');
+            document.getElementById('idlocation').value = locationIdMarkers;
+            console.log(a)
+        }
+    });
+
+    //ketika marker belum di cluster, maka event click akan melalui method ini
+    markers.on('click', function(a) {
+        $('#myModal').modal('show');
+        document.getElementById('idlocation').value = a.layer.options.locationid;
+    })
+
+    // ini adalah marker cluster, datanya dari addres point
+    for (var i = 0; i < addressPoints.length; i++) {
+        var a = addressPoints[i];
+        var locationid = a[0];
+        var marker = L.marker(new L.LatLng(a[1], a[2]), {
+            locationid: locationid
+        });
+
+
+        markers.addLayer(marker);
+    }
+    object_leaflet.map.addLayer(markers);
+>>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 </script>
 <!-- TUTUP MARKER CLUSTER -->
 
@@ -218,7 +266,7 @@
     } else {
         setInterval(() => {
             // navigator.geolocation.getCurrentPosition(getPosition); //untuk get current 
-            navigator.geolocation.watchPosition(getPosition, object_leaflet.geoerror, options);
+            navigator.geolocation.watchPosition(getPosition, geoerror, options);
         }, 1000);
     }
 
@@ -246,7 +294,7 @@
 
 
         markerUser = L.marker([latdevice, longdevice], {
-            icon: object_leaflet.user_device_location
+            icon: userDeviceLocationIcon
         });
         circle = L.circle([latdevice, longdevice], {
             radius: 20

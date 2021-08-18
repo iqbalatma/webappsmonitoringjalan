@@ -72,7 +72,22 @@ class LeafletClass{
         }).addTo(this.map);
     }
 
-  
+    // get_outer_line(){
+        
+    //     for (let i = 0; i < this.data_kecamatan.length; i++) {
+    //         //mengambil geojson dari assets
+    //         $.getJSON(this.main_url + "/assets/GeoJSON/" + this.data_kecamatan[i] + ".geojson", function(data) {
+    //             // L.geoJson function is used to parse geojson file and load on to map
+    //             geoLayer = L.geoJson(data, {
+    //                 style: function(feature) {
+    //                     return {
+    //                         color: data_warna[i],
+    //                     }
+    //                 }
+    //             }).addTo(this.map());
+    //         });
+    //     }
+    // }
 
     get_data_warna(index){
         return this.data_warna[index];
@@ -87,8 +102,8 @@ class LeafletClass{
 
     
 
-    geoerror() {
-        // console.warn('ERROR(' + err.code + '): ' + err.message);
+    geoerror(err) {
+        console.warn('ERROR(' + err.code + '): ' + err.message);
     }
 }
 
