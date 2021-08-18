@@ -194,7 +194,7 @@
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
     var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
-    new MarkerclusterClass(addressPoints, true);
+    new MarkerclusterClass(addressPoints, "edit");
 </script>
 <!-- TUTUP MARKER CLUSTER -->
 
