@@ -153,17 +153,17 @@
         document.getElementById('lng').value = longdevice;
         document.getElementById('posisi').value = "tertinggi";
         document.getElementById('messagemodal').innerHTML = "Apakah anda yakin ini adalah titik tertinggi jalan menanjak ?";
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
     L.easyButton('fa fa-caret-down', function(btn, map) {
         $('#modalKonfirmasiUp').modal('show');
         document.getElementById('lat').value = latdevice;
         document.getElementById('lng').value = longdevice;
         document.getElementById('posisi').value = "terendah";
         document.getElementById('messagemodal').innerHTML = "Apakah anda yakin ini adalah titik terendah jalan menanjak ?";
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
     L.easyButton('fa fa-camera', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
         $('#modalTambahTitik').modal('show');
@@ -190,7 +190,7 @@
         };
 
 
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 </script>
 
 
@@ -210,7 +210,7 @@
     //ini adalah on click ketika marker cluster di klik
     markers.on('clusterclick', function(a) {
         var locationIdMarkers = new Array();
-        if (map.getZoom() == maxZoom) {
+        if (object_leaflet.map.getZoom() == object_leaflet.max_zoom) {
             for (var i = 0; i < a.layer._markers.length; i++) {
                 locationIdMarkers.push(a.layer._markers[i].options.locationid);
             }
@@ -237,7 +237,7 @@
 
         markers.addLayer(marker);
     }
-    map.addLayer(markers);
+    object_leaflet.map.addLayer(markers);
 </script>
 <!-- TUTUP MARKER CLUSTER -->
 
@@ -281,10 +281,10 @@
 
         // untuk membuang marker sebelum menambahkan marker lainnya
         if (markerUser) {
-            map.removeLayer(markerUser)
+            object_leaflet.map.removeLayer(markerUser)
         }
         if (circle) {
-            map.removeLayer(circle)
+            object_leaflet.map.removeLayer(circle)
         }
 
 
@@ -294,7 +294,7 @@
         circle = L.circle([latdevice, longdevice], {
             radius: 20
         });
-        featureGroup = L.featureGroup([markerUser, circle]).addTo(map);
+        featureGroup = L.featureGroup([markerUser, circle]).addTo(object_leaflet.map);
     }
 </script>
 <!-- TUTUP LOCATION DEVICE -->
@@ -314,25 +314,25 @@
                 weight: 3
             }]
         },
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 
-    map.on('click', function(e) {
+    object_leaflet.map.on('click', function(e) {
         var container = L.DomUtil.create('div'),
             startBtn = createButton('Mulai dari lokasi ini', container),
             destBtn = createButton('Menuju lokasi ini', container);
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
-            map.closePopup();
+            object_leaflet.map.closePopup();
         });
         L.DomEvent.on(startBtn, 'click', function() {
             controlRouting.spliceWaypoints(0, 1, e.latlng);
-            map.closePopup();
+            object_leaflet.map.closePopup();
         });
         L.popup()
             .setContent(container)
             .setLatLng(e.latlng)
-            .openOn(map);
+            .openOn(object_leaflet.map);
     });
 </script>
 <!-- TUTUP ROUTING MACHINE -->
