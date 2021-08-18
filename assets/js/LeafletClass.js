@@ -1,12 +1,10 @@
 class LeafletClass{
     constructor(main_url){
         this.main_url = main_url;
-
         this.data_kecamatan = [
             "selakau", "salatiga", "sambas", "pemangkat", "tebas", "galing", "subah", "telukkeramat", "selakautimur", "tekarang", "jawai", "jawaiselatan", "semparuk", "sebawi", "paloh", "sajad", "sejangkung", "tangaran", "sajinganbesar"
         ];
         this.max_zoom = 16;
-
         this.data_warna = [
             "#8ec07c",
             "#fb4934",
@@ -25,17 +23,14 @@ class LeafletClass{
             "#83a598",
             "#0072e0",
         ];
-
         this.user_device_location = L.icon({
             iconUrl: this.main_url + 'assets/img/userDeviceLocation.png',
             iconSize: [30, 30], // size of the icon
         });
-
         this.jalan_tertinggi = L.icon({
             iconUrl: this.main_url + 'assets/img/up.png',
             iconSize: [30, 30]
         });
-
         this.jalan_terendah = L.icon({
             iconUrl: this.main_url + 'assets/img/down.png',
             iconSize: [30, 30]
@@ -54,8 +49,6 @@ class LeafletClass{
             subdomains: "1234",
             attribution: this.map_atribut
         });
-    
-
 
         this.inisiasi_map();
         
@@ -93,7 +86,7 @@ class LeafletClass{
         return this.data_warna[index];
     }
 
-    create_button(label, container){
+    create_button(){
         var btn = L.DomUtil.create('button', '', container);
         btn.setAttribute('type', 'button');
         btn.innerHTML = label;
@@ -106,9 +99,6 @@ class LeafletClass{
         console.warn('ERROR(' + err.code + '): ' + err.message);
     }
 }
-
-
-
 
 
 

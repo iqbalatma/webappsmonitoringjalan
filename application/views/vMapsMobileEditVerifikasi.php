@@ -202,6 +202,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
     var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
+<<<<<<< HEAD
     new MarkerclusterClass(addressPoints, "edit");
 =======
 =======
@@ -255,6 +256,9 @@
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 =======
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
+    new MarkerclusterClass(addressPoints, true);
+>>>>>>> parent of 16469ab (progress deteksi jalan)
 </script>
 <!-- TUTUP MARKER CLUSTER -->
 

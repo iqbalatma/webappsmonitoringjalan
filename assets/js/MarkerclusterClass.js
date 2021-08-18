@@ -2,6 +2,7 @@ class MarkerclusterClass {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     constructor(titik_koordinat, jenis = ""){
 =======
     constructor(titik_koordinat){
@@ -12,33 +13,16 @@ class MarkerclusterClass {
 =======
     constructor(titik_koordinat){
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
+    constructor(titik_koordinat, edit = false){
+>>>>>>> parent of 16469ab (progress deteksi jalan)
         this.titik_koordinat = titik_koordinat;
 
-        if(jenis == "deteksi"){
-            this.markers = L.markerClusterGroup({
-                spiderfyShapePositions: function(count, centerPt) {
-                    var distanceFromCenter = 35,
-                        markerDistance = 45,
-                        lineLength = markerDistance * (count - 1),
-                        lineStart = centerPt.y - lineLength / 2,
-                        res = [],
-                        i;
-        
-                    res.length = count;
-        
-                    for (i = count - 1; i >= 0; i--) {
-                        res[i] = new Point(centerPt.x + distanceFromCenter, lineStart + markerDistance * i);
-                    }
-                    return res;
-                }
-            });
-        }else{
-            this.markers = L.markerClusterGroup({
-                spiderfyOnMaxZoom: false
-            });
-        }
+        this.markers = L.markerClusterGroup({
+            spiderfyOnMaxZoom: false
+        });
 
-
+<<<<<<< HEAD
 <<<<<<< HEAD
         this.set_cluster_click(jenis);
 
@@ -58,6 +42,11 @@ class MarkerclusterClass {
         this.markers2 = L.markerClusterGroup({
             spiderfyOnMaxZoom: false
         });
+=======
+        this.set_cluster_click(edit);
+
+        this.set_cluster_data(edit);
+>>>>>>> parent of 16469ab (progress deteksi jalan)
 
         this.set_cluster_click();
 <<<<<<< HEAD
@@ -73,6 +62,7 @@ class MarkerclusterClass {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     set_cluster_click(jenis){
 =======
     set_cluster_click(){
@@ -83,6 +73,9 @@ class MarkerclusterClass {
 =======
     set_cluster_click(){
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
+    set_cluster_click(edit = false){
+>>>>>>> parent of 16469ab (progress deteksi jalan)
         return this.markers.on('clusterclick', function(a) {
             var locationIdMarkers = new Array();
     
@@ -94,12 +87,14 @@ class MarkerclusterClass {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if(jenis == "edit"){
+=======
+                if(edit == true){
+>>>>>>> parent of 16469ab (progress deteksi jalan)
                     $('#myModal').modal('show');
                     document.getElementById('idlocation').value = locationIdMarkers;
-                    console.log("ini cluster edit"); //warning
                 }else{
-                    console.log("ini cluster peta"); //warning
                     $('#myModal').modal('show');
                     document.getElementById('status').value = a.sourceTarget._markers[0].options.status;
                     document.getElementById('verifikasi').value = a.sourceTarget._markers[0].options.verifikasi;
@@ -122,9 +117,11 @@ class MarkerclusterClass {
 =======
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
             }
+            console.log("ini cluster");
         });
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -138,6 +135,9 @@ class MarkerclusterClass {
 =======
     set_cluster_data(){
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
+    set_cluster_data(edit){
+>>>>>>> parent of 16469ab (progress deteksi jalan)
         for (var i = 0; i < this.titik_koordinat.length; i++) {
             var a = this.titik_koordinat[i];
             var locationid = a[0];
@@ -159,27 +159,22 @@ class MarkerclusterClass {
 <<<<<<< HEAD
 <<<<<<< HEAD
 
-            if(jenis == "deteksi"){
-                marker.bindPopup(status);
-            }else{
-                marker.on("click", function(a) {
-                    $('#myModal').modal('show');
-                    if(jenis=="edit"){
-                        document.getElementById('idlocation').value = a.target.options.locationid;
-                    }else if(jenis == "deteksi"){
-                        
-                    }else{
-                        document.getElementById('status').value = status;
-                        document.getElementById('verifikasi').value = verifikasi;
-                        document.getElementById('img').src = object_leaflet.main_url + img_path;
-                    }
-                })
-            }
 
-            
+            marker.on("click", function(a) {
+                $('#myModal').modal('show');
+                if(edit==true){
+                    document.getElementById('idlocation').value = a.target.options.locationid;
+                }else{
+                    document.getElementById('status').value = status;
+                    document.getElementById('verifikasi').value = verifikasi;
+                    document.getElementById('img').src = object_leaflet.main_url + img_path;
+                }
+            })
+   
             this.markers.addLayer(marker);
         }
     }
+<<<<<<< HEAD
 
 
 =======
@@ -204,9 +199,11 @@ class MarkerclusterClass {
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
 =======
 >>>>>>> parent of 02e7be9 (marker cluster edit dan peta digital done)
+=======
+   
+>>>>>>> parent of 16469ab (progress deteksi jalan)
 
     add_layer(){
         object_leaflet.map.addLayer(this.markers);
     }
-
 }
