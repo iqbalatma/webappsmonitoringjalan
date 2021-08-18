@@ -1,5 +1,5 @@
 class MarkerclusterClass {
-    constructor(titik_koordinat, edit = false){
+    constructor(titik_koordinat, jenis = ""){
         this.titik_koordinat = titik_koordinat;
 
         this.markers = L.markerClusterGroup({
