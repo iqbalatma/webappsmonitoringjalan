@@ -27,7 +27,7 @@
     var titikJalanRusakFinal = [];
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 </script>
 
 
@@ -54,6 +54,9 @@
         }, 1000);
     }
 
+    function geoerror(e) {
+
+    }
 
 
     $("#alert-jarak").hide();
@@ -63,21 +66,21 @@
         longdevice = position.coords.longitude
         accuracy = position.coords.accuracy
         if (markerUser) {
-            map.removeLayer(markerUser)
+            object_leaflet.map.removeLayer(markerUser)
         }
         if (circle) {
-            map.removeLayer(circle)
+            object_leaflet.map.removeLayer(circle)
         }
         $("#alert-jarak").hide();
 
         markerUser = L.marker([latdevice, longdevice], {
-            icon: userDeviceLocationIcon
+            icon: object_leaflet.user_device_location
         });
         circle = L.circle([latdevice, longdevice], {
             radius: 20
         });
 
-        featureGroup = L.featureGroup([markerUser, circle]).addTo(map);
+        featureGroup = L.featureGroup([markerUser, circle]).addTo(object_leaflet.map);
 
         // console.log("ho")
         if (titikJalanRusakFinal.length == 0) {
@@ -88,7 +91,7 @@
             //cari dulu jarak terpendek dari titik user baru tampilkan alert
             var index;
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
-                jarak = distance(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1], latdevice, longdevice, "M");
+                jarak = object_leaflet.distance(titikJalanRusakFinal[i][0], titikJalanRusakFinal[i][1], latdevice, longdevice, "M");
                 if (jarakTerpendek == false) { //berarti jarak terpendek belum di set
                     jarakTerpendek = jarak
                     index = i;
@@ -137,39 +140,38 @@
             }]
         },
         // autoRoute: true
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 
-    map.on('click', function(e) {
+    object_leaflet.map.on('click', function(e) {
 
         var container = L.DomUtil.create('div'),
-            startBtn = createButton('Mulai dari lokasi ini', container),
-            destBtn = createButton('Menuju lokasi ini', container);
+            startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container),
+            destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
 
 
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
-            map.closePopup();
+            object_leaflet.map.closePopup();
             console.log(controlRouting.getWaypoints());
         });
 
         L.DomEvent.on(startBtn, 'click', function() {
             controlRouting.spliceWaypoints(0, 1, e.latlng);
-            map.closePopup();
+            object_leaflet.map.closePopup();
         });
 
         L.popup()
             .setContent(container)
             .setLatLng(e.latlng)
-            .openOn(map);
-
+            .openOn(object_leaflet.map);
     });
 
 
     // mengambil data jalan rusak dari database dengan ajax
     var koordinatejalanrusak;
     var ajax = new XMLHttpRequest();
-    ajax.open("OPEN", main_url + "assets/AjaxServer/Serv.php", true);
+    ajax.open("OPEN", object_leaflet.main_url + "assets/AjaxServer/Serv.php", true);
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -179,20 +181,16 @@
 
 
 
-
-
-
     controlRouting.on('routingerror', function(e) {
         console.log(e);
-    })
+    });
+
     var demo = [];
     controlRouting.on('routesfound', function(e) {
 
         var jalanRusakYangDilalui = [];
         koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
         coordinateFromRoute = e.routes[0].coordinates; //dari rute
-
-
 
 
         var lat1, lat2, long1, long2;
@@ -207,7 +205,7 @@
                 lat2 = coordinateFromRoute[j]["lat"];
                 long2 = coordinateFromRoute[j]["lng"];
                 // menghitung jarak antar kedua titik
-                jarak = distance(lat1, long1, lat2, long2, "M");
+                jarak = object_leaflet.distance(lat1, long1, lat2, long2, "M");
                 // mengecek apakah jaraknya kurang dari 5 meter antara rute dan titik jalan rusak, jika ya kemungkinan rute melalui jalan rusak tersebut
                 if (jarak < 50) {
                     // console.log("haha jaraknya " + jarak)
@@ -235,7 +233,7 @@
                         long1 = jalanRusakYangDilaluiFilteredFirstStep[i][1]; //long
                         lat2 = jalanRusakYangDilaluiFilteredSecondStep[j][0]; //lat
                         long2 = jalanRusakYangDilaluiFilteredSecondStep[j][1]; //long
-                        jarak = distance(lat1, long1, lat2, long2, "M");
+                        jarak = object_leaflet.distance(lat1, long1, lat2, long2, "M");
                         // apabila jaraknya lebih dari 100 meter maka titik tersebut akan dianggap sebagai titik lainnya dan akan dipisahkan untuk memberikan notif
                         if (jarak > 100) {
                             jalanRusakYangDilaluiFilteredSecondStep.push(jalanRusakYangDilaluiFilteredFirstStep[i]);
@@ -248,7 +246,7 @@
 
 
             titikJalanRusakFinal = jalanRusakYangDilaluiFilteredSecondStep;
-            map.removeLayer(markers);
+            object_leaflet.map.removeLayer(object_markercluster.markers);
 
 
 
@@ -274,7 +272,7 @@
                         return null;
                     }
                 })
-                demo[i].addTo(map);
+                demo[i].addTo(object_leaflet.map);
                 demo[i].hide();
             }
 
@@ -287,7 +285,7 @@
         } else {
             //untuk menghapus rute merah dan memasukkan marker
 
-            map.addLayer(markers);
+            object_leaflet.map.addLayer(markers);
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
                 demo[i].setWaypoints([
 
@@ -307,9 +305,8 @@
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
     var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;
-    var object_markercluster = new MarkerCluster(addressPoints);
+    var object_markercluster = new MarkerclusterClass(addressPoints);
 </script>
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script>
 <!-- TUTUP MARKER CLUSTER -->
 
 

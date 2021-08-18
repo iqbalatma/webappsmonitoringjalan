@@ -67,7 +67,6 @@
 
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
-    // memanggil data jalan rusak dari database
     var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
     new MarkerclusterClass(addressPoints);
 </script>
