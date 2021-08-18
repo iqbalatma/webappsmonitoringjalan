@@ -68,12 +68,10 @@
 <script type="text/javascript">
     //event untuk select option
     $('select').on('change', function() {
-        // alert("haha");
         var id_select = this.value;
-        window.location.replace(main_url + "maps/petadigital/" + id_select);
+        window.location.replace(object_leaflet.main_url + "maps/petadigital/" + id_select);
     });
 </script>
-
 
 
 <!-- MARKER CLUSTER DATA -->
@@ -88,7 +86,6 @@
         spiderfyOnMaxZoom: false
     });
 
-    console.log(16);
     //ini adalah on click ketika marker cluster di klik
     markers.on('clusterclick', function(a) {
         // a.layer is actually a cluster
@@ -103,7 +100,7 @@
             $('#myModal').modal('show');
             document.getElementById('status').value = a.sourceTarget._markers[0].options.status;
             document.getElementById('verifikasi').value = a.sourceTarget._markers[0].options.verifikasi;
-            document.getElementById('img').src = main_url + a.sourceTarget._markers[0].options.img_path;
+            document.getElementById('img').src = object_leaflet.main_url + a.sourceTarget._markers[0].options.img_path;
         }
     });
 
@@ -147,7 +144,9 @@
 
 <!-- UPHILL ROAD -->
 <script>
-    var dataJalanMenanjak = <?php echo json_encode($data_jalan_menanjak); ?>;
+    var dataJalanMenanjak = <?= json_encode($data_jalan_menanjak); ?>;
+    var object_uphill = new UphillClass(dataJalanMenanjak);
+
     for (let i = 0; i < dataJalanMenanjak.length; i++) {
         var polylinePoints = [
             [dataJalanMenanjak[i][1], dataJalanMenanjak[i][2]],
@@ -155,33 +154,35 @@
         ];
 
 
-        var uphillRoadControl = L.Routing.control({
-            fitSelectedRoutes: false,
-            waypoints: polylinePoints,
-            routeWhileDragging: true,
-            lineOptions: {
-                styles: [{
-                    color: 'orange',
-                    opacity: 10,
-                    weight: 5
-                }]
-            },
-            createMarker: function(i, wp, nWps) {
-                if (i === 0) {
-                    return L.marker(wp.latLng, {
-                        icon: object_leaflet.jala_tertinggi
-                    });
-                } else {
-                    return L.marker(wp.latLng, {
-                        icon: object_leaflet.jalan_terendah
-                    });
-                }
-            }
-        });
-        uphillRoadControl.addTo(map);
-        uphillRoadControl.hide();
+        // var uphillRoadControl = L.Routing.control({
+        //     fitSelectedRoutes: false,
+        //     waypoints: polylinePoints,
+        //     routeWhileDragging: true,
+        //     lineOptions: {
+        //         styles: [{
+        //             color: 'orange',
+        //             opacity: 10,
+        //             weight: 5
+        //         }]
+        //     },
+        //     createMarker: function(i, wp, nWps) {
+        //         if (i === 0) {
+        //             return L.marker(wp.latLng, {
+        //                 icon: object_leaflet.jalan_tertinggi
+        //             });
+        //         } else {
+        //             return L.marker(wp.latLng, {
+        //                 icon: object_leaflet.jalan_terendah
+        //             });
+        //         }
+        //     }
+        // });
+        object_uphill.uphill_road_control.addTo(map);
+        // uphillRoadControl.addTo(map);
+        // object_uphill.uphill_road_control.hide();
     }
-    uphillRoadControl.on('routesfound', function(e) {
+
+    object_uphill.uphill_road_control.on('routesfound', function(e) {
         console.log("Rute Jalan Menanjak Ditemukan")
     })
 </script>

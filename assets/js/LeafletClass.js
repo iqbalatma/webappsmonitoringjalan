@@ -11,13 +11,11 @@ class LeafletClass{
             "#0ff1ce",
             "#003366",
             "#b5b4e5",
-
             "#99cccc",
             "#fe8019",
             "#f9dada",
             "#693a7c",
             "#a9dcd6",
-
             "#abeeaa",
             "#420420",
             "#5ac18e",
@@ -37,6 +35,7 @@ class LeafletClass{
             iconUrl: this.main_url + 'assets/img/down.png',
             iconSize: [30, 30]
         });
+       
         this.map = L.map('map').setView([1.3558759194062155, 109.30113044443895], 9);
 
         this.map_tiler = 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}@2x.png?key=YuJOaTSiwRyG08KX8Bj9';
@@ -45,39 +44,29 @@ class LeafletClass{
         ', Tiles courtesy of <a href="https://geo6.be/">GEO-6</a>';
 
         this.display_group = new L.LayerGroup();
+
+        this.service = new L.TileLayer(this.map_tiler, {
+            subdomains: "1234",
+            attribution: this.map_atribut
+        });
         
     }
 
-    
 
-    get_map() {
-        return this.map;
-    }
 
-    get_atribut(){
-        return this.map_atribut;
-    }
+    inisiasi_map(){
+        this.service;
+        this.display_group;
+        
 
-    get_tiler(){
-        return this.map_tiler;
-    }
-
-    get_max_zoom(){
-        return this.max_zoom;
-    }
-
-    get_service(){
-        return new L.TileLayer(this.get_tiler(), {
-            subdomains: "1234",
-            attribution: this.get_atribut()
-        });
-    }
-
-    get_display_group(){
-        return display_group.addTo(this.get_map);
+        return L.tileLayer(this.map_tiler, {
+            attribution: this.map_atribut,
+            maxZoom: this.max_zoom
+        }).addTo(this.map);
     }
 
     get_outer_line(){
+        
         for (let i = 0; i < this.data_kecamatan.length; i++) {
             //mengambil geojson dari assets
             $.getJSON(this.main_url + "/assets/GeoJSON/" + this.data_kecamatan[i] + ".geojson", function(data) {
@@ -85,12 +74,16 @@ class LeafletClass{
                 geoLayer = L.geoJson(data, {
                     style: function(feature) {
                         return {
-                            color: this.data_warna[i],
+                            color: data_warna[i],
                         }
                     }
-                }).addTo(this.get_map());
+                }).addTo(this.map());
             });
         }
+    }
+
+    get_data_warna(index){
+        return this.data_warna[index];
     }
 
     create_button(){
@@ -129,4 +122,6 @@ class LeafletClass{
         console.warn('ERROR(' + err.code + '): ' + err.message);
     }
 }
+
+
 
