@@ -1,6 +1,3 @@
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
-<!-- BODY HTML -->
-
 <body id="page-top">
 
     <div class="container-sm">
@@ -133,12 +130,10 @@
         </div>
     </div>
 </body>
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 <!-- FOOTER UNTUK LOAD JAVASCRIPT -->
 <?php require("TemplateMap/footer.php"); ?>
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
+
 <!-- VARIABEL GLOBAL -->
 <script>
     var token = "<?= $token; ?>";
@@ -153,17 +148,17 @@
         document.getElementById('lng').value = longdevice;
         document.getElementById('posisi').value = "tertinggi";
         document.getElementById('messagemodal').innerHTML = "Apakah anda yakin ini adalah titik tertinggi jalan menanjak ?";
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
     L.easyButton('fa fa-caret-down', function(btn, map) {
         $('#modalKonfirmasiUp').modal('show');
         document.getElementById('lat').value = latdevice;
         document.getElementById('lng').value = longdevice;
         document.getElementById('posisi').value = "terendah";
         document.getElementById('messagemodal').innerHTML = "Apakah anda yakin ini adalah titik terendah jalan menanjak ?";
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
     L.easyButton('fa fa-camera', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
         $('#modalTambahTitik').modal('show');
@@ -190,7 +185,7 @@
         };
 
 
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 </script>
 
 
@@ -198,46 +193,8 @@
 
 <!-- MARKER CLUSTER DATA -->
 <script type="text/javascript">
-    //NOTE :  ADA PERBEDAAN antara marker dan markers, markers pada markercluster 
-
-    // address point didapat dari db
-    var addressPoints = <?php echo json_encode($data_jalan_rusak); ?>;;
-    // markers untuk cluster
-    var markers = L.markerClusterGroup({
-        spiderfyOnMaxZoom: false
-    });
-
-    //ini adalah on click ketika marker cluster di klik
-    markers.on('clusterclick', function(a) {
-        var locationIdMarkers = new Array();
-        if (map.getZoom() == maxZoom) {
-            for (var i = 0; i < a.layer._markers.length; i++) {
-                locationIdMarkers.push(a.layer._markers[i].options.locationid);
-            }
-            $('#myModal').modal('show');
-            document.getElementById('idlocation').value = locationIdMarkers;
-            console.log(a)
-        }
-    });
-
-    //ketika marker belum di cluster, maka event click akan melalui method ini
-    markers.on('click', function(a) {
-        $('#myModal').modal('show');
-        document.getElementById('idlocation').value = a.layer.options.locationid;
-    })
-
-    // ini adalah marker cluster, datanya dari addres point
-    for (var i = 0; i < addressPoints.length; i++) {
-        var a = addressPoints[i];
-        var locationid = a[0];
-        var marker = L.marker(new L.LatLng(a[1], a[2]), {
-            locationid: locationid
-        });
-
-
-        markers.addLayer(marker);
-    }
-    map.addLayer(markers);
+    var addressPoints = <?= json_encode($data_jalan_rusak); ?>;
+    new MarkerclusterClass(addressPoints, true);
 </script>
 <!-- TUTUP MARKER CLUSTER -->
 
@@ -261,7 +218,7 @@
     } else {
         setInterval(() => {
             // navigator.geolocation.getCurrentPosition(getPosition); //untuk get current 
-            navigator.geolocation.watchPosition(getPosition, geoerror, options);
+            navigator.geolocation.watchPosition(getPosition, object_leaflet.geoerror, options);
         }, 1000);
     }
 
@@ -281,20 +238,20 @@
 
         // untuk membuang marker sebelum menambahkan marker lainnya
         if (markerUser) {
-            map.removeLayer(markerUser)
+            object_leaflet.map.removeLayer(markerUser)
         }
         if (circle) {
-            map.removeLayer(circle)
+            object_leaflet.map.removeLayer(circle)
         }
 
 
         markerUser = L.marker([latdevice, longdevice], {
-            icon: userDeviceLocationIcon
+            icon: object_leaflet.user_device_location
         });
         circle = L.circle([latdevice, longdevice], {
             radius: 20
         });
-        featureGroup = L.featureGroup([markerUser, circle]).addTo(map);
+        featureGroup = L.featureGroup([markerUser, circle]).addTo(object_leaflet.map);
     }
 </script>
 <!-- TUTUP LOCATION DEVICE -->
@@ -314,25 +271,25 @@
                 weight: 3
             }]
         },
-    }).addTo(map);
+    }).addTo(object_leaflet.map);
 
-    map.on('click', function(e) {
+    object_leaflet.map.on('click', function(e) {
         var container = L.DomUtil.create('div'),
             startBtn = createButton('Mulai dari lokasi ini', container),
             destBtn = createButton('Menuju lokasi ini', container);
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
-            map.closePopup();
+            object_leaflet.map.closePopup();
         });
         L.DomEvent.on(startBtn, 'click', function() {
             controlRouting.spliceWaypoints(0, 1, e.latlng);
-            map.closePopup();
+            object_leaflet.map.closePopup();
         });
         L.popup()
             .setContent(container)
             .setLatLng(e.latlng)
-            .openOn(map);
+            .openOn(object_leaflet.map);
     });
 </script>
 <!-- TUTUP ROUTING MACHINE -->

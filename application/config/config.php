@@ -23,8 +23,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/monitoring_jalan';
-// $config['base_url'] = 'https://monitoringjalansambas.my.id';
+
+if (ENVIRONMENT == "production") {
+    $config['base_url'] = 'https://monitoringjalansambas.my.id';
+} else {
+    $config['base_url'] = 'http://localhost/monitoring_jalan';
+}
+
 
 /*
 |--------------------------------------------------------------------------

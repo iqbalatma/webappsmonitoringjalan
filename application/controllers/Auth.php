@@ -3,30 +3,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Auth extends CI_Controller
 {
-
     /**
-     * Index Page for this controller.
-     *
-     * Maps to the following URL
-     * 		http://example.com/index.php/welcome
-     *	- or -
-     * 		http://example.com/index.php/welcome/index
-     *	- or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see https://codeigniter.com/user_guide/general/urls.html
+     * Ini adalah consturctor
      */
     public function __construct()
     {
         parent::__construct();
         $this->load->model("UsersModel");
     }
+
+
+    /**
+     * Ini method index untuk menampilkan view
+     */
     public function index()
     {
-        if (isset($_SESSION["isLoggedIn"]) && isset($_SESSION["isLoggedIn"]) == true) {
+        if (isset($_SESSION["is_logged_in"]) && isset($_SESSION["is_logged_in"]) == true) {
             redirect("Dashboard");
         } else {
             $data = [
@@ -38,42 +30,53 @@ class Auth extends CI_Controller
         }
     }
 
-    public function login()
-    {
-        $passwordField = $this->input->post("password");
-        $usernameField = $this->input->post("username");
-        $isLoggedIn = false;
 
-        $dataFromDb = $this->UsersModel->getByUsername($usernameField);
-        if ($dataFromDb) {
-            $passwordFromDb = $dataFromDb->password;
-            if (password_verify($passwordField, $passwordFromDb)) {
-                // login berhasil
-                $isLoggedIn = true;
+    /**
+     * Ini adalah progress login
+     */
+    public function progress_login()
+    {
+        $password_field = $this->input->post("password");
+        $username_field = $this->input->post("username");
+        $is_logged_in = false;
+        $data_from_db = $this->UsersModel->getByUsername($username_field);
+
+        if ($data_from_db) {
+            $password_from_db = $data_from_db->password;
+
+            if (password_verify($password_field, $password_from_db)) {
+                // Statement ketika login berhasil
+                $is_logged_in = true;
                 $session = [
-                    'isLoggedIn' => $isLoggedIn,
-                    'username' => $dataFromDb->username,
-                    'id_user' => $dataFromDb->id,
-                    'fullname' => $dataFromDb->fullname,
-                    'token' => $dataFromDb->token
+                    'is_logged_in' => $is_logged_in,
+                    'username' => $data_from_db->username,
+                    'id_user' => $data_from_db->id,
+                    'fullname' => $data_from_db->fullname,
+                    'token' => $data_from_db->token
                 ];
                 $this->session->set_userdata($session);
                 redirect("Dashboard");
+                die;
             } else {
-                // password salah
-                $isLoggedIn = false;
+                // Statement ketika login gagal
+                $is_logged_in = false;
             }
         } else {
             // username salah
-            $isLoggedIn = false;
+            $is_logged_in = false;
         }
-        if ($isLoggedIn === false) {
+
+        if ($is_logged_in === false) {
             $this->session->set_flashdata('msg', "<div class='alert alert-danger' role='alert'>Username atau password salah !</div>");
             redirect("Auth");
         }
     }
 
-    public function logout()
+
+    /**
+     * Ini adalah progress logout
+     */
+    public function progress_logout()
     {
         $this->session->sess_destroy();
         redirect("Auth");

@@ -3,21 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Maps extends CI_Controller
 {
-
     /**
-     * Index Page for this controller.
-     *
-     * Maps to the following URL
-     * 		http://example.com/index.php/welcome
-     *	- or -
-     * 		http://example.com/index.php/welcome/index
-     *	- or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see https://codeigniter.com/user_guide/general/urls.html
+     * Ini adalah consturctor
      */
     public function __construct()
     {
@@ -28,12 +15,15 @@ class Maps extends CI_Controller
     }
 
 
-
+    /**
+     * Ini adalah method index
+     * method index untuk menampilkan template dashboard
+     */
     public function index()
     {
-
         $dataJalanRusak = array();
         $dataJalanRusakDariDB = $this->LocationModel->getDataRusak();
+
         foreach ($dataJalanRusakDariDB as $row) :
             array_push($dataJalanRusak, [$row->latitude, $row->longitude, $row->status]);
         endforeach;
@@ -43,30 +33,20 @@ class Maps extends CI_Controller
             'content' => 'vMaps',
             'data_jalan_rusak' => $dataJalanRusak,
         ];
+
         $this->load->view('templateDashboard/wrapper', $data);
     }
 
 
-    public function deteksijalan()
-    {
-        $dataJalanRusak = array();
-        $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
-        foreach ($dataJalanRusakDariDB as $row) :
-            array_push($dataJalanRusak, [$row->latitude, $row->longitude, $row->status]);
-        endforeach;
-
-        $data = [
-            'title' => 'Deteksi Jalan Rusak',
-            'content' => 'vMapsMobileDeteksiJalanRusak',
-            'data_jalan_rusak' => $dataJalanRusak,
-        ];
-
-        $this->load->view('TemplateMap/wrapper', $data);
-    }
-
-
+    /**
+     * Ini adalah petadigital
+     */
     public function petadigital($dataJalan = "")
     {
+        $dataJalanRusak = array();
+        $dataJalanMenanjak = array();
+        $dataJalanMenanjakDariDB = $this->UphillroadModel->getAll();
+
         if ($dataJalan !== "") {
             switch ($dataJalan) {
                 case "1":
@@ -89,16 +69,16 @@ class Maps extends CI_Controller
         }
 
 
-        $dataJalanRusak = array();
         foreach ($dataJalanRusakDariDB as $row) :
             array_push($dataJalanRusak, [$row->id, $row->latitude, $row->longitude, $row->status, $row->img_path, $row->verifikasi]);
         endforeach;
 
-        $dataJalanMenanjak = array();
-        $dataJalanMenanjakDariDB = $this->UphillroadModel->getAll();
+
         foreach ($dataJalanMenanjakDariDB as $row) :
             array_push($dataJalanMenanjak, [$row->id, $row->highest_lat, $row->highest_long, $row->lowest_lat, $row->lowest_long]);
         endforeach;
+
+
         $data = [
             'title' => 'Peta Digital',
             'content' => 'vMapsMobile',
@@ -107,8 +87,31 @@ class Maps extends CI_Controller
         ];
 
 
+        return  $this->load->view('TemplateMap/wrapper', $data);
+    }
+
+
+    /**
+     * Ini adalah deteksijalan
+     */
+    public function deteksijalan()
+    {
+        $dataJalanRusak = array();
+        $dataJalanRusakDariDB = $this->LocationModel->getDataRusakTerverifikasi();
+        foreach ($dataJalanRusakDariDB as $row) :
+            array_push($dataJalanRusak, [$row->latitude, $row->longitude, $row->status]);
+        endforeach;
+
+        $data = [
+            'title' => 'Deteksi Jalan Rusak',
+            'content' => 'vMapsMobileDeteksiJalanRusak',
+            'data_jalan_rusak' => $dataJalanRusak,
+        ];
+
         $this->load->view('TemplateMap/wrapper', $data);
     }
+
+
 
     public function verifikasijalan($token = "", $dataJalan = "true")
     {
@@ -146,6 +149,13 @@ class Maps extends CI_Controller
         }
     }
 
+
+
+
+
+    /**
+     * Ini adalah method untuk memproses data add
+     */
     public function add()
     {
         $token = $this->input->post("token");
@@ -199,11 +209,12 @@ class Maps extends CI_Controller
     }
 
 
+
+    /**
+     * Ini adalah method untuk memproses data edit
+     */
     public function edit()
     {
-
-
-
         $token = $this->input->post("token");
         $isTokenValid = $this->UsersModel->cekToken($token);
         $id_user = $isTokenValid->id;
@@ -247,16 +258,19 @@ class Maps extends CI_Controller
             if ($query) {
                 $this->session->set_flashdata('msg', "<div class='alert alert-success fixed-top' role='alert'>$messageFlash</div>");
                 redirect('Maps/verifikasijalan/' . $token . "/true");
-            }else{
-              $this->session->set_flashdata('msg', "<div class='alert alert-danger fixed-top' role='alert'>Status dan verifikasi jalan gagal diperbaharui</div>");
+            } else {
+                $this->session->set_flashdata('msg', "<div class='alert alert-danger fixed-top' role='alert'>Status dan verifikasi jalan gagal diperbaharui</div>");
             }
-
         } else {
             redirect("Auth");
         }
     }
 
 
+
+    /**
+     * Ini adalah method untuk memproses data titik jalan menanjak
+     */
     public function titikmenanjak()
     {
         $latitude = $this->input->post("lat");
@@ -311,6 +325,13 @@ class Maps extends CI_Controller
 
 
 
+
+
+
+
+    /**
+     * Ini DEMO< BUKAN UNTUK PRODUCTION
+     */
     // DEMO BUKAN UNTUK PRODUCTIONS
     public function demo()
     {
