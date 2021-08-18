@@ -15,11 +15,14 @@
 <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 <!-- VARIABEL GLOBAL -->
 <script src="<?= base_url(); ?>/assets/js/globalinisiasi.js"></script>
+<script src="<?= base_url(); ?>/assets/js/LeafletClass.js"></script>
 
 <!-- GLOBAL INISIASI -->
 <script type="text/javascript">
-    // main url untuk pemanggilan lintas bahasa
     const main_url = "<?= base_url(); ?>";
+    var object_leaflet = new LeafletClass(main_url);
+    const map = object_leaflet.get_map;
+    object_leaflet.get_display_group
 
     // global variabel
     var id, target, featureGroup, options, markerUser, circle, latdevice, longdevice, latcurrentdevice, longcurrentdevice, accuracy;
@@ -29,86 +32,8 @@
     var timeout = 3000; // in miliseconds (3*1000)
     $('.alert').delay(timeout).fadeOut(300);
 
-    //maxzoom pada peta, dibatasi sampai 16
-    var maxZoom = 17;
 
-    // untuk mengcustom marker device location
-    var userDeviceLocationIcon = L.icon({
-        iconUrl: main_url + 'assets/img/userDeviceLocation.png',
-        iconSize: [30, 30], // size of the icon
-    });
 
-    var jalanTertinggi = L.icon({
-        iconUrl: main_url + 'assets/img/up.png',
-        iconSize: [30, 30]
-    });
-    var jalanTerendah = L.icon({
-        iconUrl: main_url + 'assets/img/down.png',
-        iconSize: [30, 30]
-    });
-    //untuk memanggil geosjon kecamatan
-    var dataKecamatan = [
-        "selakau", "salatiga", "sambas", "pemangkat", "tebas", "galing", "subah", "telukkeramat", "selakautimur", "tekarang", "jawai", "jawaiselatan", "semparuk", "sebawi", "paloh", "sajad", "sejangkung", "tangaran", "sajinganbesar"
-    ];
-    //untuk memisahkan area outline dengan masing-masing warna
-    var dataWarna = [
-        "#8ec07c",
-        "#fb4934",
-        "#0ff1ce",
-        "#003366",
-        "#b5b4e5",
-
-        "#99cccc",
-        "#fe8019",
-        "#f9dada",
-        "#693a7c",
-        "#a9dcd6",
-
-        "#abeeaa",
-        "#420420",
-        "#5ac18e",
-        "#fabd2f",
-        "#83a598",
-        "#0072e0",
-    ]
-    //untuk memanggil geosjon kecamatan
-    var dataKecamatan = [
-        "selakau", "salatiga", "sambas", "pemangkat", "tebas", "galing", "subah", "telukkeramat", "selakautimur", "tekarang", "jawai", "jawaiselatan", "semparuk", "sebawi", "paloh", "sajad", "sejangkung", "tangaran", "sajinganbesar"
-    ];
-    //untuk memisahkan area outline dengan masing-masing warna
-    var dataWarna = [
-        "#8ec07c", "#fb4934", "#0ff1ce", "#003366", "#b5b4e5", "#99cccc", "#fe8019", "#f9dada", "#693a7c", "#a9dcd6", "#abeeaa", "#420420", "#5ac18e", "#fabd2f", "#83a598", "#0072e0",
-    ]
-    //inisiasi map
-    const map = L.map('map').setView([1.3558759194062155, 109.30113044443895], 9);
-    const url = 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}@2x.png?key=YuJOaTSiwRyG08KX8Bj9';
-    const attr = '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors' +
-        ', Tiles courtesy of <a href="https://geo6.be/">GEO-6</a>'
-    service = new L.TileLayer(url, {
-        subdomains: "1234",
-        attribution: attr
-    });
-    const displayGroup = new L.LayerGroup();
-    displayGroup.addTo(map);
-    L.tileLayer(url, {
-        attribution: attr,
-        maxZoom: maxZoom
-    }).addTo(map);
-
-    // perulangan untuk membuat outline masing-masing kecamatan
-    for (let i = 0; i < dataKecamatan.length; i++) {
-        //mengambil geojson dari assets
-        $.getJSON(main_url + "/assets/GeoJSON/" + dataKecamatan[i] + ".geojson", function(data) {
-            // L.geoJson function is used to parse geojson file and load on to map
-            geoLayer = L.geoJson(data, {
-                style: function(feature) {
-                    return {
-                        color: dataWarna[i],
-                    }
-                }
-            }).addTo(map);
-        });
-    }
 
 
 

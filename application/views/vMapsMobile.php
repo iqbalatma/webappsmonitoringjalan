@@ -88,13 +88,13 @@
         spiderfyOnMaxZoom: false
     });
 
-
+    console.log(16);
     //ini adalah on click ketika marker cluster di klik
     markers.on('clusterclick', function(a) {
         // a.layer is actually a cluster
         var locationIdMarkers = new Array();
 
-        if (map.getZoom() == maxZoom) {
+        if (map.getZoom() == 16) {
             for (var i = 0; i < a.layer._markers.length; i++) {
                 locationIdMarkers.push(a.layer._markers[i].options.locationid);
             }
@@ -169,11 +169,11 @@
             createMarker: function(i, wp, nWps) {
                 if (i === 0) {
                     return L.marker(wp.latLng, {
-                        icon: jalanTertinggi
+                        icon: object_leaflet.jala_tertinggi
                     });
                 } else {
                     return L.marker(wp.latLng, {
-                        icon: jalanTerendah
+                        icon: object_leaflet.jalan_terendah
                     });
                 }
             }
