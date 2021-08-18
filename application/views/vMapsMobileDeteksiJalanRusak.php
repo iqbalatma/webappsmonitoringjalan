@@ -171,16 +171,13 @@
     // mengambil data jalan rusak dari database dengan ajax
     var koordinatejalanrusak;
     var ajax = new XMLHttpRequest();
-    ajax.open("OPEN", main_url + "assets/AjaxServer/Serv.php", true);
+    ajax.open("OPEN", object_leaflet.main_url + "assets/AjaxServer/Serv.php", true);
     ajax.send();
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             koordinatejalanrusakjson = this.responseText
         }
     };
-
-
-
 
 
 
@@ -194,8 +191,6 @@
         var jalanRusakYangDilalui = [];
         koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
         coordinateFromRoute = e.routes[0].coordinates; //dari rute
-
-
 
 
         var lat1, lat2, long1, long2;
