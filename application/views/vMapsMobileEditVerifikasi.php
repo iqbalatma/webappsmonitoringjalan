@@ -275,8 +275,8 @@
 
     object_leaflet.map.on('click', function(e) {
         var container = L.DomUtil.create('div'),
-            startBtn = createButton('Mulai dari lokasi ini', container),
-            destBtn = createButton('Menuju lokasi ini', container);
+            startBtn = object_leaflet.create_button('Mulai dari lokasi ini', container),
+            destBtn = object_leaflet.create_button('Menuju lokasi ini', container);
         L.DomEvent.on(destBtn, 'click', function() {
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);

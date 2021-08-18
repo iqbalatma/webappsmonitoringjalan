@@ -71,7 +71,7 @@ class LeafletClass{
         return this.data_warna[index];
     }
 
-    create_button(){
+    create_button(label, container){
         var btn = L.DomUtil.create('button', '', container);
         btn.setAttribute('type', 'button');
         btn.innerHTML = label;
