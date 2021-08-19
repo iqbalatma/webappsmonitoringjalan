@@ -152,7 +152,6 @@ class Maps extends CI_Controller
 
 
 
-
     /**
      * Ini adalah method untuk memproses data add
      */
@@ -322,7 +321,6 @@ class Maps extends CI_Controller
         }
         redirect("Maps/verifikasijalan/" . $token);
     }
-
 
 
     /**

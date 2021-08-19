@@ -35,7 +35,7 @@ class LeafletClass{
             iconUrl: this.main_url + 'assets/img/down.png',
             iconSize: [30, 30]
         });
-       
+
         this.map = L.map('map').setView([1.3558759194062155, 109.30113044443895], 9);
 
         this.map_tiler = 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}@2x.png?key=YuJOaTSiwRyG08KX8Bj9';
@@ -64,8 +64,6 @@ class LeafletClass{
             maxZoom: this.max_zoom
         }).addTo(this.map);
     }
-
-  
 
     get_data_warna(index){
         return this.data_warna[index];
@@ -103,9 +101,8 @@ class LeafletClass{
         }
     }
 
-    geoerror() {
-        // console.warn('ERROR(' + err.code + '): ' + err.message);
-    }
+
+
 }
 
 

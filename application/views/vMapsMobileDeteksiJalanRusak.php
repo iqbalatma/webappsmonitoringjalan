@@ -1,29 +1,16 @@
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
-<!-- BODY HTML -->
-
 <body id="page-top">
     <div class="alert alert-primary fixed-top" role="alert" id="alert-jarak">
 
     </div>
     <div id="map"></div>
 </body>
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
-
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 <!-- FOOTER UNTUK LOAD JAVASCRIPT -->
 <?php require("TemplateMap/footer.php"); ?>
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
 
-
-
-
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 <!-- CORE TEMPAT OPERASI DAN METHOD -->
 <script type="text/javascript">
-    // membuat button untuk recenter
-    // inisiasi variabel global
     var titikJalanRusakFinal = [];
     L.easyButton('fa fa-map-marker', function(btn, map) {
         map.fitBounds(featureGroup.getBounds());
@@ -123,11 +110,14 @@
         }
     }
 </script>
+<!-- TUTUP LIVE DEVICE LOCATION -->
 
 
 <!-- ROUTING MACHINE -->
 <script>
+    // pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA
     controlRouting = L.Routing.control({
+        router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
         // fitSelectedRoutes: false,
         useZoomParameter: false,
         waypoints: [
@@ -168,6 +158,8 @@
     });
 
 
+
+
     // mengambil data jalan rusak dari database dengan ajax
     var koordinatejalanrusak;
     var ajax = new XMLHttpRequest();
@@ -176,10 +168,8 @@
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             koordinatejalanrusakjson = this.responseText
-            console.log(koordinatejalanrusakjson);
         }
     };
-
 
 
     controlRouting.on('routingerror', function(e) {
@@ -188,12 +178,10 @@
 
     var demo = [];
     controlRouting.on('routesfound', function(e) {
-        console.log("haha")
-
         var jalanRusakYangDilalui = [];
         koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
         coordinateFromRoute = e.routes[0].coordinates; //dari rute
-
+        console.log(koordinatejalanrusak);
 
         var lat1, lat2, long1, long2;
         // perulangan untuk mengecek data jalan rusak apda database, berarti perulangan paling luar adalah data pada database
@@ -254,7 +242,6 @@
 
 
             // UNTUK MENAMBAHKAN TITIK JALAN RUSAK JADI RUTE MERAH
-
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
                 demo[i] = L.Routing.control({
                     fitSelectedRoutes: false,
@@ -279,15 +266,9 @@
             }
 
 
-
-
-
-
-
         } else {
             //untuk menghapus rute merah dan memasukkan marker
-
-            object_leaflet.map.addLayer(markers);
+            object_leaflet.map.addLayer(object_markercluster.markers);
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
                 demo[i].setWaypoints([
 
@@ -301,7 +282,7 @@
 
     });
 </script>
-
+<!-- TUTUP ROUTING MACHINE -->
 
 
 <!-- MARKER CLUSTER DATA -->

@@ -12,6 +12,7 @@ class UphillClass{
             ];
     
             var uphillRoadControl = L.Routing.control({
+                // router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
                 fitSelectedRoutes: false,
                 waypoints: polylinePoints,
                 routeWhileDragging: true,

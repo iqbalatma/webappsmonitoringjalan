@@ -18,6 +18,7 @@
 <script src="<?= base_url(); ?>/assets/js/MarkerclusterClass.js"></script>
 <script src="<?= base_url(); ?>/assets/js/UphillClass.js"></script>
 
+
 <!-- INISIASI LEAFLET-->
 <script type="text/javascript">
     const main_url = "<?= base_url(); ?>";
