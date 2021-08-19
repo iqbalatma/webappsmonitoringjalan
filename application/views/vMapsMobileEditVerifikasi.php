@@ -29,7 +29,7 @@
                     </button>
                 </div>
 
-                <form action="<?= base_url(); ?>/Maps/edit" method="POST" enctype='multipart/form-data'>
+                <form action="<?= base_url(); ?>Maps/edit" method="POST" enctype='multipart/form-data'>
                     <div class="modal-body">
                         <input type="hidden" name="idlocation" id="idlocation" />
                         <input type="hidden" name="token" id="token" value="<?= $token; ?>" />

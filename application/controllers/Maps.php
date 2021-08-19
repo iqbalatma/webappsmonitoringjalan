@@ -232,7 +232,7 @@ class Maps extends CI_Controller
             // $config['file_name'] = "";
 
 
-
+            $query = false;
             $messageFlash = "";
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('image_upload')) {
@@ -322,10 +322,6 @@ class Maps extends CI_Controller
         }
         redirect("Maps/verifikasijalan/" . $token);
     }
-
-
-
-
 
 
 
