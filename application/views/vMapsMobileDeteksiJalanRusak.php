@@ -153,7 +153,6 @@
             controlRouting.spliceWaypoints(controlRouting.getWaypoints().length - 1, 1, e.latlng);
             controlRouting.spliceWaypoints(0, 1, [latdevice, longdevice]);
             object_leaflet.map.closePopup();
-            console.log(controlRouting.getWaypoints());
         });
 
         L.DomEvent.on(startBtn, 'click', function() {
@@ -176,6 +175,7 @@
     ajax.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             koordinatejalanrusakjson = this.responseText
+            console.log(koordinatejalanrusakjson);
         }
     };
 
@@ -187,6 +187,7 @@
 
     var demo = [];
     controlRouting.on('routesfound', function(e) {
+        console.log("haha")
 
         var jalanRusakYangDilalui = [];
         koordinatejalanrusak = JSON.parse(koordinatejalanrusakjson) //dari db
