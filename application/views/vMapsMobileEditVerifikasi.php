@@ -223,12 +223,6 @@
     }
 
 
-
-    function getCurrentPosition(position) {
-        latcurrentdevice = position.coords.latitude
-        longcurrentdevice = position.coords.longitude
-    }
-
     // set marker on response position
     function getPosition(position) { //fungsinya dipanggil sebagai parameter watchposition
         // menyimpan latitude dan longitude kedalam variabel

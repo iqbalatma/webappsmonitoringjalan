@@ -105,9 +105,10 @@
             }
 
 
+
+
+
             console.log(jarakTerpendek);
-
-
             if (jarakTerpendek < 100) {
                 $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
                 $("#alert-jarak").show();

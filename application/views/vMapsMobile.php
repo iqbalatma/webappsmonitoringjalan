@@ -1,6 +1,3 @@
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
-<!-- BODY HTML -->
-
 <body id="page-top">
     <div class="container-sm">
         <select class="custom-select custom-select-sm fixed-top" name="selectoption" id="selectoption">
@@ -44,11 +41,11 @@
         </div>
     </div>
 </body>
-<!-- -------------------------------------------------------------------------------------------------------------------------- -->
 
 
 
 
+<!-- FOOTER -->
 <?php require('TemplateMap/footer.php'); ?>
 
 
