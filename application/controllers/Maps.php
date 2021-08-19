@@ -102,10 +102,16 @@ class Maps extends CI_Controller
             array_push($dataJalanRusak, [$row->id, $row->latitude, $row->longitude, $row->status]);
         endforeach;
 
+
+
+
+
+
         $data = [
             'title' => 'Deteksi Jalan Rusak',
             'content' => 'vMapsMobileDeteksiJalanRusak',
             'data_jalan_rusak' => $dataJalanRusak,
+            // 'data_jalan_rusak_terverifikasi' => $this->LocationModel->jalan_rusak_terverifikasi(),
         ];
 
         $this->load->view('TemplateMap/wrapper', $data);

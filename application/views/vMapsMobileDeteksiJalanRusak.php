@@ -244,6 +244,7 @@
             // UNTUK MENAMBAHKAN TITIK JALAN RUSAK JADI RUTE MERAH
             for (let i = 0; i < titikJalanRusakFinal.length; i++) {
                 demo[i] = L.Routing.control({
+                    router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
                     fitSelectedRoutes: false,
                     useZoomParameter: false,
                     waypoints: [
