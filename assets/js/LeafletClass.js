@@ -23,10 +23,15 @@ class LeafletClass{
             "#83a598",
             "#0072e0",
         ];
+
+
         this.user_device_location = L.icon({
             iconUrl: this.main_url + 'assets/img/userDeviceLocation.png',
             iconSize: [30, 30], // size of the icon
         });
+
+
+        
         this.jalan_tertinggi = L.icon({
             iconUrl: this.main_url + 'assets/img/up.png',
             iconSize: [30, 30]

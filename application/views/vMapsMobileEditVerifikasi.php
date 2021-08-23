@@ -257,7 +257,7 @@
 <!-- ROUTING MACHINE -->
 <script type="text/javascript">
     controlRouting = L.Routing.control({
-        // router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
+        router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
         waypoints: [
             L.latLng(latcurrentdevice, longcurrentdevice),
         ],

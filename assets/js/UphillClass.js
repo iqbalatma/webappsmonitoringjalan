@@ -4,6 +4,7 @@ class UphillClass{
         this.set_uphill_marker();
     }
 
+   
     set_uphill_marker(){
         for (let i = 0; i < this.data_jalan_menanjak.length; i++) {
             var polylinePoints = [
@@ -12,7 +13,7 @@ class UphillClass{
             ];
     
             var uphillRoadControl = L.Routing.control({
-                // router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
+                router: L.Routing.mapbox('pk.eyJ1IjoiaXFiYWxhdG1hIiwiYSI6ImNrc2lwaDM3ejFtb3gzMG9mdzNtcHJycDAifQ.6jjNDuM8gItHG7j68Py7CA'),
                 fitSelectedRoutes: false,
                 waypoints: polylinePoints,
                 routeWhileDragging: true,
