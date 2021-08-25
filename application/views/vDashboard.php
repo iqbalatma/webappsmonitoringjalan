@@ -2,7 +2,7 @@
 	<div class="col-xl-12 col-md-6 mb-4">
 		<div class="card border-left-primary shadow h-100 py-2">
 			<div class="card-body">
-				<button onclick="playSound('http://monitoringjalansambas.my.id/assets/tes.mp3')">Play</button>
+				<button onclick="playSound('https://monitoringjalansambas.my.id/assets/tes.mp3')">Play</button>
 				<a href="<?= base_url(); ?>Dashboard/"><button type="button" class="mb-3 btn btn-primary">Data Jalan</button></a>
 				<a href="<?= base_url(); ?>Dashboard/index/1"><button type="button" class="mb-3 btn btn-primary">Data Jalan Rusak</button></a>
 				<a href="<?= base_url(); ?>Dashboard/index/2"><button type="button" class="mb-3 btn btn-primary">Data Jalan Rusak Terverifikasi</button></a>
