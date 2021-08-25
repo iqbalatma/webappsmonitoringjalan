@@ -97,6 +97,12 @@
 <script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script> -->
 
 
+<script>
+    function playSound(url) {
+        const audio = new Audio(url);
+        audio.play();
+    }
+</script>
 
 
 </html>

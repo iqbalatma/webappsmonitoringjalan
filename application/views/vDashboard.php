@@ -77,3 +77,4 @@
 		</div>
 	</div>
 </div>
+<button onclick="playSound('http://monitoringjalansambas.my.id/assets/tes.mp3')">Play</button>
