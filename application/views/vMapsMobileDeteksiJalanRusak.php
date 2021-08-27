@@ -95,6 +95,7 @@
 
 
 
+            playSound('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
             console.log(jarakTerpendek);
             if (jarakTerpendek < 100) {
                 $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
