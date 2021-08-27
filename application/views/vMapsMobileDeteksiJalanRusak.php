@@ -78,7 +78,9 @@
             // ketika user belum menentukan titik rute maka titik jalan rusak yang dilalui akan kosong
             console.log("Titik jalan rusak tidak ada");
 
-            playSound('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
+            // playSound('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
+            var audio = new Audio('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
+            audio.play();
         } else {
             // Ketika rute ditemukan dan terdapat jalan rusak pada rute tersebut
             //cari dulu jarak terpendek dari titik user baru tampilkan alert
