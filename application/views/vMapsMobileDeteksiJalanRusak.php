@@ -72,7 +72,9 @@
         // console.log("ho")
         if (titikJalanRusakFinal.length == 0) {
             // ketika user belum menentukan titik rute maka titik jalan rusak yang dilalui akan kosong
-            console.log("Titik jalan rusak tidak ada")
+            console.log("Titik jalan rusak tidak ada");
+
+            playSound('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
         } else {
             // Ketika rute ditemukan dan terdapat jalan rusak pada rute tersebut
             //cari dulu jarak terpendek dari titik user baru tampilkan alert
@@ -95,7 +97,6 @@
 
 
 
-            playSound('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
             console.log(jarakTerpendek);
             $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
             $("#alert-jarak").show();
