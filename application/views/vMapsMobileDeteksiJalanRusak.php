@@ -45,6 +45,10 @@
 
     }
 
+    function playSound(url) {
+        const audio = new Audio(url);
+        audio.play();
+    }
 
     $("#alert-jarak").hide();
 
@@ -161,10 +165,7 @@
     });
 
 
-    function playSound(url) {
-        const audio = new Audio(url);
-        audio.play();
-    }
+
 
     // mengambil data jalan rusak dari database dengan ajax
     var koordinatejalanrusak;
