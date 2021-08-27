@@ -105,7 +105,8 @@
 
 
 
-
+            var audio = new Audio('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
+            audio.play();
 
             console.log(jarakTerpendek);
             $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
@@ -277,8 +278,7 @@
                 })
                 demo[i].addTo(object_leaflet.map);
                 demo[i].hide();
-                var audio = new Audio('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
-                audio.play();
+
             }
 
 
