@@ -79,22 +79,14 @@
 
 </body>
 
-<!-- <script src="<?= base_url(); ?>/assets/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js"></script>
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/inisiasimap.js"></script> -->
 
 
 
 
 
 
-<!-- DATA MARKER CLUSTER -->
-<!-- <script type="text/javascript">
-    var data_jalan_rusak = <?php echo json_encode($data_jalan_rusak); ?>;
-    var addressPoints = data_jalan_rusak
-    console.log("haha")
-    console.log(data_jalan_rusak)
-</script>
-<script type="text/javascript" src="<?= base_url(); ?>/assets/js/markercluster.js"></script> -->
+
+
 
 
 <script>

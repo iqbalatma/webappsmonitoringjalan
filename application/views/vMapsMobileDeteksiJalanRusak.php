@@ -97,14 +97,15 @@
 
             playSound('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
             console.log(jarakTerpendek);
-            if (jarakTerpendek < 100) {
-                $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
-                $("#alert-jarak").show();
-                if (jarakTerpendek < 5) {
-                    console.log("pemotongan tereksekusi");
-                    titikJalanRusakFinal.splice(index, 1)
-                }
+            $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
+            $("#alert-jarak").show();
+            if (jarakTerpendek < 5) {
+                console.log("pemotongan tereksekusi");
+                titikJalanRusakFinal.splice(index, 1)
             }
+
+
+            if (jarakTerpendek < 100) {}
             jarakTerpendek = false;
 
 
