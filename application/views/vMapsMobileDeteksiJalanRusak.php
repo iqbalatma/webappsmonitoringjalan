@@ -25,6 +25,9 @@
 
 <!-- LIVE DEVICE LOCATION -->
 <script type="text/javascript">
+    var counter_suara = 0;
+
+
     var jarakTerpendek = false;
     target = {
         latitude: 0,
@@ -105,19 +108,30 @@
 
 
 
-            var audio = new Audio('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
-            audio.play();
 
-            console.log(jarakTerpendek);
-            $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
-            $("#alert-jarak").show();
-            if (jarakTerpendek < 5) {
-                console.log("pemotongan tereksekusi");
-                titikJalanRusakFinal.splice(index, 1)
+
+            if (jarakTerpendek < 100) {
+
+                if (jarakTerpendek <= 10) {
+                    if (counter_suara == 0) {
+                        var audio = new Audio('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
+                        audio.play();
+                        if (counter_suara == 7) {
+                            counter_suara = 0;
+                        }
+                    } else {
+                        counter_suara = counter_suara + 1;
+                    }
+                }
+                console.log(jarakTerpendek);
+                $("#alert-jarak").html("Hati-hati ! " + parseFloat(jarakTerpendek).toFixed(2) + " m ada jalan berlubang");
+                $("#alert-jarak").show();
+                if (jarakTerpendek < 5) {
+                    console.log("pemotongan tereksekusi");
+                    titikJalanRusakFinal.splice(index, 1)
+                }
+
             }
-
-
-            if (jarakTerpendek < 100) {}
             jarakTerpendek = false;
 
 
