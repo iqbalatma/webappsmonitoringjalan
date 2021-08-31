@@ -104,6 +104,17 @@
             }
 
 
+            if (counter_suara == 0) {
+                var audio = new Audio('https://monitoringjalansambas.my.id/assets/sound_notif.mp3');
+                audio.play();
+                if (counter_suara == 7) {
+                    counter_suara = 0;
+                }
+                counter_suara = counter_suara + 1;
+            } else {
+                counter_suara = counter_suara + 1;
+            }
+
 
 
 
