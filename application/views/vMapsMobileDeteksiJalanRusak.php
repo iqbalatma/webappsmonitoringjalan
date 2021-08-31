@@ -3,9 +3,6 @@
 
     </div>
     <div id="map"></div>
-    <!-- 
-    <audio id="sound">
-    </audio> -->
 
 </body>
 
@@ -119,6 +116,7 @@
                         if (counter_suara == 7) {
                             counter_suara = 0;
                         }
+                        counter_suara = counter_suara + 1;
                     } else {
                         counter_suara = counter_suara + 1;
                     }

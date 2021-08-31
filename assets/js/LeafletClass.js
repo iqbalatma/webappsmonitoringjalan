@@ -105,9 +105,6 @@ class LeafletClass{
             return dist;
         }
     }
-
-
-
 }
 
 

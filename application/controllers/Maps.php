@@ -111,7 +111,6 @@ class Maps extends CI_Controller
             'title' => 'Deteksi Jalan Rusak',
             'content' => 'vMapsMobileDeteksiJalanRusak',
             'data_jalan_rusak' => $dataJalanRusak,
-            // 'data_jalan_rusak_terverifikasi' => $this->LocationModel->jalan_rusak_terverifikasi(),
         ];
 
         $this->load->view('TemplateMap/wrapper', $data);
