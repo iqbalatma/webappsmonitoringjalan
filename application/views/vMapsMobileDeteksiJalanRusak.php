@@ -111,7 +111,7 @@
                 counter_suara = counter_suara + 1;
             } else {
                 counter_suara = counter_suara + 1;
-                if (counter_suara == 13) {
+                if (counter_suara == 20) {
                     counter_suara = 0;
                 }
             }
