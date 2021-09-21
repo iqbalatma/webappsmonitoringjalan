@@ -113,6 +113,7 @@ class Maps extends CI_Controller
             'data_jalan_rusak' => $dataJalanRusak,
         ];
 
+        // var_dump($dataJalanRusak);
         $this->load->view('TemplateMap/wrapper', $data);
     }
 
@@ -178,7 +179,7 @@ class Maps extends CI_Controller
             $config['max_width'] = 15000;
             $config['max_height'] = 15000;
             $upload_path = $config['upload_path'] . "/" . $_FILES["image_upload"]["name"];
-            // $config['file_name'] = "";
+
 
 
 
@@ -233,7 +234,7 @@ class Maps extends CI_Controller
             $config['max_width'] = 15000;
             $config['max_height'] = 15000;
             $upload_path = $config['upload_path'] . "/" . $_FILES["image_upload"]["name"];
-            // $config['file_name'] = "";
+
 
 
             $query = false;
@@ -241,7 +242,7 @@ class Maps extends CI_Controller
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('image_upload')) {
                 $messageFlash = $this->upload->display_errors();
-                // var_dump($error_message);
+
                 $this->session->set_flashdata('msg', "<div class='alert alert-danger fixed-top' role='alert'>$messageFlash</div>");
             } else {
                 // SEPARATE
